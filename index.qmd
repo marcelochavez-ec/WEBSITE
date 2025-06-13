@@ -1,0 +1,34 @@
+---
+about:
+  template: jolla
+  id: about-block
+  image: "img/my_image.jpg"
+  links:
+    - icon: github
+      text: Github
+      href: https://github.com/marcelochavez-ec
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/marcelochavezec/
+    - icon: envelope
+      text: Email
+      href: "mailto:marcelo_chavez_ec@outlook.com"  
+---
+
+::: {#about-block}
+:::
+
+# Bienvenidos a mi sitio web!
+
+Soy Marcelo Chávez, profesional con formación académica en pregrado: Ingeniero en Estadística Informática en (ESPOCH) y un posgrado en Estadística Aplicada en ESPOL[], con una sólida trayectoria en el diseño, desarrollo y automatización de procesos estadísticos y analítica de datos.
+
+Durante mi carrera he trabajado tanto en el sector público como en consultorías técnicas, con un enfoque centrado en protección social, desarrollando soluciones basadas en evidencia que fortalecen políticas, programas y servicios dirigidos a poblaciones vulnerables.
+
+Mi trabajo combina herramientas de ciencia de datos, estadística avanzada y programación para ofrecer servicios especializados en:
+
+* Automatización y modernización de procesos estadísticos
+* Producción, análisis y visualización de información oficial
+* Construcción de modelos predictivos y de aprendizaje automático
+* Análisis estadístico sobre servicios de protección social
+
+Como consultor, aporto experiencia, ética y compromiso técnico para acompañar a instituciones en el uso inteligente de los datos como herramienta para mejorar la eficiencia, el impacto y la transparencia de sus intervenciones.

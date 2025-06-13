@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2025-06-13">
+
+<title>Visualización de Datos con Python – Marcelo Chávez</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../img/favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b914a645868b8d7366dc0cc3b04801f8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../img/logo.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Marcelo Chávez</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../projects/index.html" aria-current="page"> 
+<span class="menu-text">Proyectos</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../photography/index.html"> 
+<span class="menu-text">Servicios Profesionales</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../cv/index.html"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/marcelochavez-ec"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text">Github</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://www.linkedin.com/in/marcelochavezec/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text">LinkedIn</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:marcelo_chavez_ec@outlook.com"> <i class="bi bi-envelope" role="img" aria-label="email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#estructura-de-un-esquema-de-gráficos-con-matplotlib" id="toc-estructura-de-un-esquema-de-gráficos-con-matplotlib" class="nav-link active" data-scroll-target="#estructura-de-un-esquema-de-gráficos-con-matplotlib">Estructura de un esquema de gráficos con Matplotlib</a></li>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link" data-scroll-target="#introducción">Introducción</a>
+  <ul class="collapse">
+  <li><a href="#operaciones-básicas" id="toc-operaciones-básicas" class="nav-link" data-scroll-target="#operaciones-básicas">Operaciones básicas</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Visualización de Datos con Python</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 13, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="estructura-de-un-esquema-de-gráficos-con-matplotlib" class="level2">
+<h2 class="anchored" data-anchor-id="estructura-de-un-esquema-de-gráficos-con-matplotlib">Estructura de un esquema de gráficos con Matplotlib</h2>
+<p><img src="ESTRUCTURA_MATPLOTLIB.png" style="height: 50%; width: 100%; object-fit: contain" onclick="window.open('https://arxiv.org/abs/2210.07278', 'blank');"></p>
+<p><a href="https://arxiv.org/abs/2210.07278" target="_blank">arXiv Preprint</a> | <a href="https://github.com/marvinschmitt/MetaUncertaintyPaper" target="_blank">Code</a><br></p>
+</section>
+<section id="introducción" class="level1">
+<h1>Introducción</h1>
+<p>El presente es un Jupyter Notebook que demuestra gráficos utilizando la gramática de gráficos con Python, iniciaremos con la librería <strong>Matplotlib</strong></p>
+<section id="operaciones-básicas" class="level2">
+<h2 class="anchored" data-anchor-id="operaciones-básicas">Operaciones básicas</h2>
+<div id="712a6138" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df_ipc <span class="op">=</span> pd.read_excel(<span class="st">"IPC/SERIE HISTORICA IPC_05_2025.xls"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                        sheet_name<span class="op">=</span><span class="st">"2. VARIACIÓN MENSUAL"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                        skiprows<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                        engine<span class="op">=</span><span class="st">"xlrd"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                        nrows<span class="op">=</span><span class="dv">57</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Lista con los nombres correctos de las columnas</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>nuevos_nombres <span class="op">=</span> [<span class="st">"AÑOS"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"ENERO"</span>, </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"FEBRERO"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"MARZO"</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"ABRIL"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"MAYO"</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"JUNIO"</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"JULIO"</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"AGOSTO"</span>, </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"SEPTIEMBRE"</span>, </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"OCTUBRE"</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"NOVIEMBRE"</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"DICIEMBRE"</span>,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"PROMEDIO_MENSUAL"</span>]</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Asignar los nuevos nombres al DataFrame</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>df_ipc.columns <span class="op">=</span> nuevos_nombres</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>display(df_ipc)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"TIPO DE VARIABLES:"</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>df_ipc.dtypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">AÑOS</th>
+<th data-quarto-table-cell-role="th">ENERO</th>
+<th data-quarto-table-cell-role="th">FEBRERO</th>
+<th data-quarto-table-cell-role="th">MARZO</th>
+<th data-quarto-table-cell-role="th">ABRIL</th>
+<th data-quarto-table-cell-role="th">MAYO</th>
+<th data-quarto-table-cell-role="th">JUNIO</th>
+<th data-quarto-table-cell-role="th">JULIO</th>
+<th data-quarto-table-cell-role="th">AGOSTO</th>
+<th data-quarto-table-cell-role="th">SEPTIEMBRE</th>
+<th data-quarto-table-cell-role="th">OCTUBRE</th>
+<th data-quarto-table-cell-role="th">NOVIEMBRE</th>
+<th data-quarto-table-cell-role="th">DICIEMBRE</th>
+<th data-quarto-table-cell-role="th">PROMEDIO_MENSUAL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1969</td>
+<td>NaN</td>
+<td>1.680196</td>
+<td>1.866132</td>
+<td>3.359616</td>
+<td>-3.841073</td>
+<td>-0.053425</td>
+<td>-0.881185</td>
+<td>0.445278</td>
+<td>0.493269</td>
+<td>0.169211</td>
+<td>-0.672223</td>
+<td>2.332545</td>
+<td>0.445304</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1970</td>
+<td>-1.694896</td>
+<td>-0.283286</td>
+<td>1.704545</td>
+<td>-0.279330</td>
+<td>0.560224</td>
+<td>0.835655</td>
+<td>0.000000</td>
+<td>4.143646</td>
+<td>3.713528</td>
+<td>-0.255754</td>
+<td>1.282051</td>
+<td>0.506329</td>
+<td>0.852726</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1971</td>
+<td>-0.251889</td>
+<td>-0.505050</td>
+<td>2.030457</td>
+<td>1.243781</td>
+<td>-0.737101</td>
+<td>-0.495049</td>
+<td>1.243781</td>
+<td>0.491400</td>
+<td>0.000000</td>
+<td>0.488998</td>
+<td>0.729927</td>
+<td>1.932367</td>
+<td>0.514302</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1972</td>
+<td>0.236967</td>
+<td>1.418440</td>
+<td>1.398601</td>
+<td>-1.149425</td>
+<td>-0.465116</td>
+<td>2.570093</td>
+<td>0.911162</td>
+<td>-0.451467</td>
+<td>0.680272</td>
+<td>-0.675676</td>
+<td>0.907029</td>
+<td>0.224719</td>
+<td>0.467133</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>1973</td>
+<td>2.017937</td>
+<td>0.879121</td>
+<td>2.832244</td>
+<td>2.118644</td>
+<td>0.622407</td>
+<td>0.618557</td>
+<td>0.204918</td>
+<td>0.817996</td>
+<td>1.622718</td>
+<td>2.395210</td>
+<td>0.974659</td>
+<td>1.351351</td>
+<td>1.371313</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>1974</td>
+<td>1.714286</td>
+<td>3.558052</td>
+<td>5.786618</td>
+<td>4.957265</td>
+<td>-1.628665</td>
+<td>-1.158940</td>
+<td>0.000000</td>
+<td>1.675042</td>
+<td>2.306425</td>
+<td>0.000000</td>
+<td>3.059581</td>
+<td>0.312500</td>
+<td>1.715180</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>1975</td>
+<td>2.803738</td>
+<td>1.818182</td>
+<td>1.934524</td>
+<td>0.437956</td>
+<td>-1.162791</td>
+<td>0.588235</td>
+<td>0.000000</td>
+<td>0.438596</td>
+<td>1.455604</td>
+<td>-0.286944</td>
+<td>1.007194</td>
+<td>1.424501</td>
+<td>0.871566</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>1976</td>
+<td>1.685393</td>
+<td>0.414365</td>
+<td>0.275103</td>
+<td>0.411523</td>
+<td>0.136612</td>
+<td>2.319236</td>
+<td>1.600000</td>
+<td>-0.262467</td>
+<td>1.710526</td>
+<td>2.587322</td>
+<td>0.504414</td>
+<td>1.003764</td>
+<td>1.032149</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>1977</td>
+<td>1.242236</td>
+<td>0.122699</td>
+<td>0.735294</td>
+<td>1.338200</td>
+<td>0.720288</td>
+<td>0.715137</td>
+<td>0.473373</td>
+<td>1.531213</td>
+<td>2.088167</td>
+<td>2.272727</td>
+<td>-0.555556</td>
+<td>1.117318</td>
+<td>0.983425</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>1978</td>
+<td>1.988950</td>
+<td>0.975081</td>
+<td>1.394850</td>
+<td>1.164021</td>
+<td>0.523013</td>
+<td>0.936524</td>
+<td>0.515464</td>
+<td>-0.307692</td>
+<td>1.234568</td>
+<td>0.203252</td>
+<td>1.318458</td>
+<td>0.300300</td>
+<td>0.853899</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>1979</td>
+<td>1.696607</td>
+<td>1.177625</td>
+<td>1.939864</td>
+<td>0.000000</td>
+<td>1.617507</td>
+<td>0.477528</td>
+<td>0.270245</td>
+<td>-0.371747</td>
+<td>-0.093284</td>
+<td>0.466853</td>
+<td>1.115242</td>
+<td>1.378676</td>
+<td>0.806260</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>1980</td>
+<td>2.085222</td>
+<td>0.976909</td>
+<td>2.198769</td>
+<td>1.721170</td>
+<td>1.607445</td>
+<td>0.249792</td>
+<td>1.411960</td>
+<td>-0.819001</td>
+<td>0.578035</td>
+<td>-1.231527</td>
+<td>0.831255</td>
+<td>0.824402</td>
+<td>0.869536</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>1981</td>
+<td>1.635323</td>
+<td>2.976669</td>
+<td>2.890625</td>
+<td>1.366743</td>
+<td>2.022472</td>
+<td>0.440529</td>
+<td>0.219298</td>
+<td>0.510576</td>
+<td>0.798258</td>
+<td>1.079914</td>
+<td>1.780627</td>
+<td>0.349895</td>
+<td>1.339244</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>1982</td>
+<td>1.185495</td>
+<td>0.827016</td>
+<td>1.230349</td>
+<td>1.417961</td>
+<td>0.998668</td>
+<td>1.450231</td>
+<td>1.949318</td>
+<td>1.848311</td>
+<td>1.501877</td>
+<td>4.377312</td>
+<td>3.189604</td>
+<td>2.117916</td>
+<td>1.841172</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>1983</td>
+<td>4.316143</td>
+<td>2.418055</td>
+<td>3.043022</td>
+<td>4.837067</td>
+<td>6.993686</td>
+<td>5.764866</td>
+<td>5.364807</td>
+<td>3.951120</td>
+<td>3.879310</td>
+<td>2.866843</td>
+<td>-0.220022</td>
+<td>-0.036751</td>
+<td>3.598179</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>1984</td>
+<td>2.426471</td>
+<td>1.794688</td>
+<td>2.468265</td>
+<td>2.546456</td>
+<td>1.241611</td>
+<td>0.563474</td>
+<td>1.285432</td>
+<td>1.854865</td>
+<td>1.565495</td>
+<td>2.201950</td>
+<td>2.954755</td>
+<td>1.704036</td>
+<td>1.883958</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>1985</td>
+<td>6.407995</td>
+<td>1.160221</td>
+<td>1.829601</td>
+<td>2.949853</td>
+<td>1.198229</td>
+<td>1.956242</td>
+<td>1.565261</td>
+<td>0.198857</td>
+<td>0.868271</td>
+<td>0.565667</td>
+<td>1.271705</td>
+<td>2.173388</td>
+<td>1.845441</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>1986</td>
+<td>3.285275</td>
+<td>2.540046</td>
+<td>1.941531</td>
+<td>1.904553</td>
+<td>0.816327</td>
+<td>1.150650</td>
+<td>0.758374</td>
+<td>2.759774</td>
+<td>2.522889</td>
+<td>3.472911</td>
+<td>1.879555</td>
+<td>1.430723</td>
+<td>2.038551</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>1987</td>
+<td>1.800297</td>
+<td>2.534184</td>
+<td>5.156472</td>
+<td>1.961447</td>
+<td>1.376451</td>
+<td>2.273843</td>
+<td>0.943698</td>
+<td>1.061638</td>
+<td>2.053935</td>
+<td>1.935781</td>
+<td>4.551620</td>
+<td>2.897506</td>
+<td>2.378906</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>1988</td>
+<td>3.236201</td>
+<td>4.993893</td>
+<td>4.484942</td>
+<td>6.902524</td>
+<td>4.697987</td>
+<td>3.569850</td>
+<td>4.876747</td>
+<td>5.748881</td>
+<td>7.399211</td>
+<td>5.447052</td>
+<td>6.355140</td>
+<td>5.895510</td>
+<td>5.300662</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>1989</td>
+<td>5.295715</td>
+<td>5.831781</td>
+<td>8.969672</td>
+<td>2.683730</td>
+<td>1.070845</td>
+<td>3.405962</td>
+<td>1.354559</td>
+<td>2.598664</td>
+<td>4.815186</td>
+<td>2.628923</td>
+<td>3.104947</td>
+<td>2.624975</td>
+<td>3.698747</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>1990</td>
+<td>3.741380</td>
+<td>4.629455</td>
+<td>4.185816</td>
+<td>4.532284</td>
+<td>2.916718</td>
+<td>2.544621</td>
+<td>3.187110</td>
+<td>1.599423</td>
+<td>3.466328</td>
+<td>3.545356</td>
+<td>4.209277</td>
+<td>2.398098</td>
+<td>3.412989</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">22</td>
+<td>1991</td>
+<td>4.386223</td>
+<td>3.872908</td>
+<td>3.921569</td>
+<td>3.242380</td>
+<td>4.248320</td>
+<td>2.505529</td>
+<td>1.778620</td>
+<td>2.714371</td>
+<td>4.537790</td>
+<td>3.206857</td>
+<td>2.246431</td>
+<td>3.919600</td>
+<td>3.381716</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">23</td>
+<td>1992</td>
+<td>4.335990</td>
+<td>3.448784</td>
+<td>2.817159</td>
+<td>5.278151</td>
+<td>3.701894</td>
+<td>3.613235</td>
+<td>2.684505</td>
+<td>3.057140</td>
+<td>10.553627</td>
+<td>6.284382</td>
+<td>1.035162</td>
+<td>1.592516</td>
+<td>4.033546</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">24</td>
+<td>1993</td>
+<td>3.188545</td>
+<td>1.734235</td>
+<td>2.965554</td>
+<td>3.629334</td>
+<td>4.515095</td>
+<td>1.820012</td>
+<td>1.200083</td>
+<td>0.419137</td>
+<td>2.564277</td>
+<td>3.125482</td>
+<td>1.626599</td>
+<td>0.574561</td>
+<td>2.280243</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25</td>
+<td>1994</td>
+<td>1.752550</td>
+<td>4.013368</td>
+<td>2.644509</td>
+<td>2.996302</td>
+<td>1.377421</td>
+<td>1.521049</td>
+<td>0.609662</td>
+<td>1.539754</td>
+<td>1.802787</td>
+<td>1.161064</td>
+<td>2.176297</td>
+<td>1.286418</td>
+<td>1.906765</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">26</td>
+<td>1995</td>
+<td>2.981600</td>
+<td>1.205757</td>
+<td>1.976845</td>
+<td>2.570565</td>
+<td>1.952709</td>
+<td>1.205796</td>
+<td>0.667676</td>
+<td>1.070039</td>
+<td>2.508968</td>
+<td>1.251876</td>
+<td>1.557440</td>
+<td>1.770817</td>
+<td>1.726674</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">27</td>
+<td>1996</td>
+<td>2.399304</td>
+<td>2.545534</td>
+<td>2.897256</td>
+<td>2.840212</td>
+<td>-0.272813</td>
+<td>1.492922</td>
+<td>1.739130</td>
+<td>1.974654</td>
+<td>2.384393</td>
+<td>1.552576</td>
+<td>2.223767</td>
+<td>1.291638</td>
+<td>1.922381</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">28</td>
+<td>1997</td>
+<td>6.442953</td>
+<td>3.467844</td>
+<td>1.462523</td>
+<td>2.042042</td>
+<td>1.530312</td>
+<td>1.391304</td>
+<td>2.058319</td>
+<td>1.344538</td>
+<td>2.321725</td>
+<td>1.836845</td>
+<td>1.379310</td>
+<td>1.883830</td>
+<td>2.263462</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">29</td>
+<td>1998</td>
+<td>4.006163</td>
+<td>4.543210</td>
+<td>2.739726</td>
+<td>4.367816</td>
+<td>1.762115</td>
+<td>2.900433</td>
+<td>0.799327</td>
+<td>1.293823</td>
+<td>5.067985</td>
+<td>6.470588</td>
+<td>2.062615</td>
+<td>0.757849</td>
+<td>3.064304</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">30</td>
+<td>1999</td>
+<td>3.187679</td>
+<td>2.672683</td>
+<td>13.488844</td>
+<td>5.540661</td>
+<td>0.874965</td>
+<td>1.790711</td>
+<td>3.051127</td>
+<td>0.533476</td>
+<td>1.751128</td>
+<td>4.172099</td>
+<td>6.382979</td>
+<td>5.576471</td>
+<td>4.085235</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">31</td>
+<td>2000</td>
+<td>14.334745</td>
+<td>10.034697</td>
+<td>7.564216</td>
+<td>10.210804</td>
+<td>5.140466</td>
+<td>5.315520</td>
+<td>2.372470</td>
+<td>1.360437</td>
+<td>3.680583</td>
+<td>2.696939</td>
+<td>2.161964</td>
+<td>2.462936</td>
+<td>5.611315</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">32</td>
+<td>2001</td>
+<td>6.966161</td>
+<td>2.912621</td>
+<td>2.194191</td>
+<td>1.721813</td>
+<td>0.163149</td>
+<td>0.478469</td>
+<td>0.243161</td>
+<td>0.434607</td>
+<td>2.042870</td>
+<td>1.173570</td>
+<td>1.598596</td>
+<td>0.671592</td>
+<td>1.716733</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">33</td>
+<td>2002</td>
+<td>1.805013</td>
+<td>1.067176</td>
+<td>1.122596</td>
+<td>1.495750</td>
+<td>0.489130</td>
+<td>0.381676</td>
+<td>-0.066204</td>
+<td>0.436877</td>
+<td>0.576700</td>
+<td>0.645178</td>
+<td>0.694756</td>
+<td>0.343670</td>
+<td>0.749360</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">34</td>
+<td>2003</td>
+<td>2.486340</td>
+<td>0.764456</td>
+<td>0.563718</td>
+<td>0.972585</td>
+<td>0.177019</td>
+<td>-0.208231</td>
+<td>0.033254</td>
+<td>0.061499</td>
+<td>0.790685</td>
+<td>0.002472</td>
+<td>0.333726</td>
+<td>-0.041064</td>
+<td>0.494705</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">35</td>
+<td>2004</td>
+<td>0.409984</td>
+<td>0.685699</td>
+<td>0.698909</td>
+<td>0.652898</td>
+<td>-0.475473</td>
+<td>-0.307754</td>
+<td>-0.615792</td>
+<td>0.026833</td>
+<td>0.229242</td>
+<td>0.280625</td>
+<td>0.418951</td>
+<td>-0.064433</td>
+<td>0.161641</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">36</td>
+<td>2005</td>
+<td>0.244728</td>
+<td>0.272185</td>
+<td>0.263370</td>
+<td>0.837390</td>
+<td>0.175113</td>
+<td>0.071073</td>
+<td>-0.155706</td>
+<td>-0.146298</td>
+<td>0.716626</td>
+<td>0.349942</td>
+<td>0.168160</td>
+<td>0.298181</td>
+<td>0.257897</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">37</td>
+<td>2006</td>
+<td>0.478115</td>
+<td>0.707808</td>
+<td>0.651606</td>
+<td>0.068475</td>
+<td>-0.138012</td>
+<td>-0.229956</td>
+<td>0.029739</td>
+<td>0.214635</td>
+<td>0.572899</td>
+<td>0.348770</td>
+<td>0.165484</td>
+<td>-0.031816</td>
+<td>0.236479</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">38</td>
+<td>2007</td>
+<td>0.296885</td>
+<td>0.067568</td>
+<td>0.095845</td>
+<td>-0.009482</td>
+<td>0.030130</td>
+<td>0.387507</td>
+<td>0.418038</td>
+<td>0.072948</td>
+<td>0.710149</td>
+<td>0.134716</td>
+<td>0.497476</td>
+<td>0.571636</td>
+<td>0.272785</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">39</td>
+<td>2008</td>
+<td>1.142127</td>
+<td>0.943565</td>
+<td>1.479605</td>
+<td>1.518316</td>
+<td>1.048818</td>
+<td>0.756784</td>
+<td>0.586191</td>
+<td>0.209873</td>
+<td>0.659374</td>
+<td>0.031611</td>
+<td>-0.160680</td>
+<td>0.292714</td>
+<td>0.709025</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">40</td>
+<td>2009</td>
+<td>0.707418</td>
+<td>0.466155</td>
+<td>1.091183</td>
+<td>0.654970</td>
+<td>-0.008723</td>
+<td>-0.075592</td>
+<td>-0.073479</td>
+<td>-0.297708</td>
+<td>0.625473</td>
+<td>0.237021</td>
+<td>0.335763</td>
+<td>0.575456</td>
+<td>0.353161</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">41</td>
+<td>2010</td>
+<td>0.830674</td>
+<td>0.340806</td>
+<td>0.162925</td>
+<td>0.517319</td>
+<td>0.016758</td>
+<td>-0.009205</td>
+<td>0.019564</td>
+<td>0.106529</td>
+<td>0.256951</td>
+<td>0.254321</td>
+<td>0.270719</td>
+<td>0.514367</td>
+<td>0.273477</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">42</td>
+<td>2011</td>
+<td>0.679188</td>
+<td>0.554961</td>
+<td>0.336826</td>
+<td>0.820080</td>
+<td>0.345850</td>
+<td>0.039772</td>
+<td>0.175822</td>
+<td>0.485975</td>
+<td>0.790862</td>
+<td>0.352159</td>
+<td>0.303368</td>
+<td>0.397938</td>
+<td>0.440233</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">43</td>
+<td>2012</td>
+<td>0.567152</td>
+<td>0.777487</td>
+<td>0.900918</td>
+<td>0.157996</td>
+<td>-0.194056</td>
+<td>0.175095</td>
+<td>0.261227</td>
+<td>0.288667</td>
+<td>1.121914</td>
+<td>0.086008</td>
+<td>0.139346</td>
+<td>-0.185782</td>
+<td>0.341331</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">44</td>
+<td>2013</td>
+<td>0.502823</td>
+<td>0.184694</td>
+<td>0.438384</td>
+<td>0.179006</td>
+<td>-0.217898</td>
+<td>-0.144790</td>
+<td>-0.018660</td>
+<td>0.173591</td>
+<td>0.567881</td>
+<td>0.408272</td>
+<td>0.394189</td>
+<td>0.203497</td>
+<td>0.222582</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">45</td>
+<td>2014</td>
+<td>0.721710</td>
+<td>0.109904</td>
+<td>0.696282</td>
+<td>0.295476</td>
+<td>-0.041124</td>
+<td>0.104061</td>
+<td>0.403368</td>
+<td>0.209426</td>
+<td>0.612724</td>
+<td>0.202798</td>
+<td>0.181231</td>
+<td>0.114753</td>
+<td>0.300884</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">46</td>
+<td>2015</td>
+<td>0.590365</td>
+<td>0.612391</td>
+<td>0.414186</td>
+<td>0.837240</td>
+<td>0.177028</td>
+<td>0.407549</td>
+<td>-0.079502</td>
+<td>-0.001309</td>
+<td>0.264427</td>
+<td>-0.090482</td>
+<td>0.107409</td>
+<td>0.094405</td>
+<td>0.277809</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">47</td>
+<td>2016</td>
+<td>0.308157</td>
+<td>0.138044</td>
+<td>0.137016</td>
+<td>0.306576</td>
+<td>0.031800</td>
+<td>0.358857</td>
+<td>-0.085202</td>
+<td>-0.163017</td>
+<td>0.152369</td>
+<td>-0.082248</td>
+<td>-0.145242</td>
+<td>0.158790</td>
+<td>0.092992</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">48</td>
+<td>2017</td>
+<td>0.087802</td>
+<td>0.198240</td>
+<td>0.137693</td>
+<td>0.434842</td>
+<td>0.045646</td>
+<td>-0.576902</td>
+<td>-0.140565</td>
+<td>0.011880</td>
+<td>-0.153016</td>
+<td>-0.144501</td>
+<td>-0.273661</td>
+<td>0.179458</td>
+<td>-0.016090</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">49</td>
+<td>2018</td>
+<td>0.190552</td>
+<td>0.153156</td>
+<td>0.063702</td>
+<td>-0.138895</td>
+<td>-0.182594</td>
+<td>-0.274228</td>
+<td>-0.004118</td>
+<td>0.269489</td>
+<td>0.391879</td>
+<td>-0.047014</td>
+<td>-0.252819</td>
+<td>0.099175</td>
+<td>0.022357</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">50</td>
+<td>2019</td>
+<td>0.465456</td>
+<td>-0.229347</td>
+<td>-0.211456</td>
+<td>0.171565</td>
+<td>-0.004208</td>
+<td>-0.035782</td>
+<td>0.091334</td>
+<td>-0.104143</td>
+<td>-0.011961</td>
+<td>0.520726</td>
+<td>-0.703697</td>
+<td>-0.008187</td>
+<td>-0.004975</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">51</td>
+<td>2020</td>
+<td>0.227013</td>
+<td>-0.154421</td>
+<td>0.197441</td>
+<td>1.002625</td>
+<td>-0.259984</td>
+<td>-0.619815</td>
+<td>-0.612649</td>
+<td>-0.323850</td>
+<td>-0.156556</td>
+<td>-0.189278</td>
+<td>-0.008734</td>
+<td>-0.028612</td>
+<td>-0.077235</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">52</td>
+<td>2021</td>
+<td>0.116155</td>
+<td>0.084344</td>
+<td>0.175396</td>
+<td>0.349192</td>
+<td>0.083341</td>
+<td>-0.175614</td>
+<td>0.526209</td>
+<td>0.115490</td>
+<td>0.015685</td>
+<td>0.208203</td>
+<td>0.359534</td>
+<td>0.067538</td>
+<td>0.160456</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">53</td>
+<td>2022</td>
+<td>0.721328</td>
+<td>0.232496</td>
+<td>0.112436</td>
+<td>0.593648</td>
+<td>0.557411</td>
+<td>0.648225</td>
+<td>0.160236</td>
+<td>0.028599</td>
+<td>0.356912</td>
+<td>0.116746</td>
+<td>-0.007021</td>
+<td>0.157748</td>
+<td>0.306564</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">54</td>
+<td>2023</td>
+<td>0.120587</td>
+<td>0.018277</td>
+<td>0.064985</td>
+<td>0.196218</td>
+<td>0.089209</td>
+<td>0.373711</td>
+<td>0.539043</td>
+<td>0.502969</td>
+<td>0.037853</td>
+<td>-0.175018</td>
+<td>-0.399200</td>
+<td>-0.023226</td>
+<td>0.112117</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">55</td>
+<td>2024</td>
+<td>0.125346</td>
+<td>0.092817</td>
+<td>0.288041</td>
+<td>1.273100</td>
+<td>-0.119194</td>
+<td>-0.952071</td>
+<td>0.930393</td>
+<td>0.216291</td>
+<td>0.176254</td>
+<td>-0.238284</td>
+<td>-0.255991</td>
+<td>-0.985532</td>
+<td>0.045931</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">56</td>
+<td>2025</td>
+<td>-0.146104</td>
+<td>0.086143</td>
+<td>0.345624</td>
+<td>0.268531</td>
+<td>1.033814</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>0.317602</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TIPO DE VARIABLES:</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>AÑOS                  int64
+ENERO               float64
+FEBRERO             float64
+MARZO               float64
+ABRIL               float64
+MAYO                float64
+JUNIO               float64
+JULIO               float64
+AGOSTO              float64
+SEPTIEMBRE          float64
+OCTUBRE             float64
+NOVIEMBRE           float64
+DICIEMBRE           float64
+PROMEDIO_MENSUAL    float64
+dtype: object</code></pre>
+</div>
+</div>
+<div id="71aa68a1" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lista de meses en orden</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>meses <span class="op">=</span> [<span class="st">'ENERO'</span>, <span class="st">'FEBRERO'</span>, <span class="st">'MARZO'</span>, <span class="st">'ABRIL'</span>, <span class="st">'MAYO'</span>, <span class="st">'JUNIO'</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>         <span class="st">'JULIO'</span>, <span class="st">'AGOSTO'</span>, <span class="st">'SEPTIEMBRE'</span>, <span class="st">'OCTUBRE'</span>, <span class="st">'NOVIEMBRE'</span>, <span class="st">'DICIEMBRE'</span>]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Convertir de ancho a largo</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>df_long <span class="op">=</span> df_ipc.melt(id_vars<span class="op">=</span><span class="st">'AÑOS'</span>, value_vars<span class="op">=</span>meses,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                  var_name<span class="op">=</span><span class="st">'MES'</span>, value_name<span class="op">=</span><span class="st">'VALOR'</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Crear un orden cronológico para los meses</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>orden_meses <span class="op">=</span> {mes: i<span class="op">+</span><span class="dv">1</span> <span class="cf">for</span> i, mes <span class="kw">in</span> <span class="bu">enumerate</span>(meses)}</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>df_long[<span class="st">'MES_NUM'</span>] <span class="op">=</span> df_long[<span class="st">'MES'</span>].<span class="bu">map</span>(orden_meses)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Ordenar por año y mes</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>df_long <span class="op">=</span> df_long.sort_values(by<span class="op">=</span>[<span class="st">'AÑOS'</span>, <span class="st">'MES_NUM'</span>]).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Calcular variación absoluta y porcentual respecto al mes anterior</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>df_long[<span class="st">'VARIACION'</span>] <span class="op">=</span> df_long[<span class="st">'VALOR'</span>].diff()</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>df_long[<span class="st">'VARIACION_PORCENTUAL'</span>] <span class="op">=</span> df_long[<span class="st">'VARIACION'</span>] <span class="op">/</span> df_long[<span class="st">'VALOR'</span>].shift(<span class="dv">1</span>) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>display(df_long)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">AÑOS</th>
+<th data-quarto-table-cell-role="th">MES</th>
+<th data-quarto-table-cell-role="th">VALOR</th>
+<th data-quarto-table-cell-role="th">MES_NUM</th>
+<th data-quarto-table-cell-role="th">VARIACION</th>
+<th data-quarto-table-cell-role="th">VARIACION_PORCENTUAL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1969</td>
+<td>ENERO</td>
+<td>NaN</td>
+<td>1</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1969</td>
+<td>FEBRERO</td>
+<td>1.680196</td>
+<td>2</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1969</td>
+<td>MARZO</td>
+<td>1.866132</td>
+<td>3</td>
+<td>0.185936</td>
+<td>11.066345</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1969</td>
+<td>ABRIL</td>
+<td>3.359616</td>
+<td>4</td>
+<td>1.493484</td>
+<td>80.030964</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>1969</td>
+<td>MAYO</td>
+<td>-3.841073</td>
+<td>5</td>
+<td>-7.200689</td>
+<td>-214.330716</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">679</td>
+<td>2025</td>
+<td>AGOSTO</td>
+<td>NaN</td>
+<td>8</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">680</td>
+<td>2025</td>
+<td>SEPTIEMBRE</td>
+<td>NaN</td>
+<td>9</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">681</td>
+<td>2025</td>
+<td>OCTUBRE</td>
+<td>NaN</td>
+<td>10</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">682</td>
+<td>2025</td>
+<td>NOVIEMBRE</td>
+<td>NaN</td>
+<td>11</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">683</td>
+<td>2025</td>
+<td>DICIEMBRE</td>
+<td>NaN</td>
+<td>12</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+<p>684 rows × 6 columns</p>
+</div>
+</div>
+</div>
+<hr>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p><span class="faux-block">© 2026 Marcelo Chávez</span></p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

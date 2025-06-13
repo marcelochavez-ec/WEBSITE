@@ -1,0 +1,18 @@
+---
+title: "404"
+
+format:
+  html:
+    fontsize: 1.1em
+    theme: 
+      - cosmo
+      - html/styles.scss
+    toc: false
+    code-link: true
+    anchor-sections: true
+    fig-cap-location: margin
+    reference-location: margin
+    footnotes-hover: true
+---
+
+Page not found, sorry! Try the search or navigate back to the base website.

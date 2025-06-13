@@ -1,0 +1,77 @@
+# This file controls the settings for your Quarto template from www.marvinschmitt.com
+
+# website settings
+website:
+  title: "Marcelo Chávez"                                # Your name
+  description: "Consultor en Ciencia de Datos y Automatización de Procesos Estadísticos"   # A brief slogan (optional)
+  image: img/my_image.jpg
+  
+  favicon: img/favicon.png
+  
+# start of the navigation bar at the top of the website
+  navbar:
+    pinned: true
+    logo: /img/logo.png
+
+    left:
+      - text: "Proyectos"
+        menu:
+          - text: "Ingeniería en Datos"
+            href: projects/ingenieria-datos.qmd
+          - text: "Visualización de Datos"
+            href: projects/visualizacion-datos.qmd
+      - text: "Servicios Profesionales"
+        href: photography/index.qmd
+      - text: "CV"
+        href: cv/index.qmd
+    
+    # your social media handles
+    right:
+      - icon: github
+        text: Github
+        href: https://github.com/marcelochavez-ec
+      - icon: linkedin
+        text: LinkedIn
+        href: https://www.linkedin.com/in/marcelochavezec/
+      - icon: envelope
+        aria-label: email
+        href: "mailto:marcelo_chavez_ec@outlook.com"
+
+# Don't touch unless you know what you are doing :) ------------
+  search: 
+    location: navbar
+    type: textbox
+  page-footer: 
+#    left: |
+#      <span class="faux-block">&#169; 2026 Marcelo Chávez</span>
+    center: |
+       <span class="faux-block">&#169; 2026 Marcelo Chávez</span>
+#      <span class="faux-block"><a href="https://www.linkedin.com/in/marcelochavezec/">View my perfil in LinkedIn!</a></span>
+#    right: |
+ #     <span class="faux-block"><a href="https://github.com/marcelochavez-ec/">View my Code in GitHub</a></span>
+
+project:
+  type: website
+  output-dir: docs
+
+  preview: 
+    port: 22222
+    browser: true
+    watch-inputs: true
+    navigate: true
+
+execute:
+  freeze: true
+
+format:
+  html:
+    fontsize: 1.1em
+    theme: 
+      - cosmo
+      - html/styles.scss
+    toc: false
+    code-link: true
+    anchor-sections: true
+    fig-cap-location: margin
+    reference-location: margin
+    footnotes-hover: true

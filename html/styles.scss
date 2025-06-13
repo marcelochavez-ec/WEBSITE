@@ -1,0 +1,192 @@
+/*-- scss:defaults --*/
+
+/* Paleta de colores base */
+$white:    #ffffff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #868e96 !default;
+$gray-700: #495057 !default;
+$gray-800: #373a3c !default;
+$gray-900: #212529 !default;
+$black:    #000000 !default;
+
+$blue:    #2780e3 !default;
+$indigo:  #6610f2 !default;
+$purple:  #170C3A !default;
+$pink:    #A52C60 !default;
+$red:     #CF4446 !default;
+$orange:  #EE6A24 !default;
+$light-orange:  #FB9E07 !default;
+$yellow:  #F6D645 !default;
+$green:   #118230 !default;
+$teal:    #068194 !default;
+$cyan:    #3093CF !default;
+
+/* Colores principales */
+$primary:   $blue !default;
+$secondary: $gray-700 !default;
+$success:   $green !default;
+$info:      $cyan !default;
+$warning:   $orange !default;
+$danger:    $red !default;
+$light:     $gray-400 !default;
+$dark:      $black !default;
+
+/* Enlaces */
+$link-color: $primary !default;
+$link-decoration: none !default;
+$link-hover-color: $red !default;
+$link-hover-decoration: underline !default;
+
+/* Footer */
+$footer-bg: $gray-900 !default;
+$footer-fg: $gray-300 !default;
+
+/* Código en línea */
+$code-bg: $gray-200 !default;
+$code-color: $gray-900 !default;
+
+/* TOC */
+$toc-color: $orange;
+$toc-font-size: 1em;
+
+/* Botón copiar código */
+$btn-code-copy-color-active: $orange !default;
+
+
+/*-- scss:rules --*/
+
+/* Footer personalizado */
+.nav-footer {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    border: 0 !important;
+    min-height: 3em;
+
+    a {
+        color: $primary;
+    }
+
+    .faux-block {
+        display: block;
+        padding-bottom: 0.4em;
+    }
+
+    .nav-footer-center {
+        text-align: center;
+        position: inherit;
+        margin-top: 0;
+
+        @media (max-width: map-get($grid-breakpoints, md)) {
+            margin-top: 0.5em;
+            margin-bottom: 1.5em;
+        }
+    }
+
+    .nav-footer-left,
+    .nav-footer-right,
+    .nav-footer-center {
+        text-align: center;
+        width: 100%;
+        min-height: 2em;
+    }
+
+    @media (min-width: map-get($grid-breakpoints, md)) {
+        .nav-footer-left {
+            text-align: left;
+        }
+
+        .nav-footer-right {
+            text-align: right;
+        }
+
+        .nav-footer-left,
+        .nav-footer-right,
+        .nav-footer-center {
+            flex: 1 1 33%;
+        }
+    }
+}
+
+/* Títulos */
+h1, h2, h3, h4, h5, h6 {
+  color: $primary;
+  font-weight: 600;
+}
+
+/* Cards y llamados de atención */
+.card, .callout {
+  border: 1px solid $gray-300;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+}
+
+/* Botones primarios */
+.btn-primary {
+  background-color: $primary;
+  border-color: $primary;
+  &:hover {
+    background-color: darken($primary, 5%);
+    border-color: darken($primary, 7%);
+  }
+}
+
+/* Tamaño del logo */
+.navbar-brand img {
+  height: 100px;
+  width: auto;
+}
+
+/* ======= PERSONALIZACIÓN ADICIONAL ======= */
+
+/* Fondo general del sitio */
+body {
+  background-color: $gray-100;
+  font-family: 'Century Gothic', sans-serif;
+  color: #333;
+  text-align: justify;
+}
+
+/* Navbar negro con texto blanco */
+.navbar {
+  background-color: $black !important;
+  color: $white;
+
+  .navbar-brand,
+  .navbar-nav .nav-link,
+  .navbar-toggler {
+    color: $white !important;
+  }
+
+  .nav-link:hover {
+    color: $gray-300 !important;
+  }
+}
+
+body,
+main,
+.page,
+.content {
+  background-color: $gray-100 !important;
+}
+
+.embed-container {
+  position: relative;
+  padding-bottom: 129%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+}
+.embed-container iframe,
+.embed-container object,
+.embed-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
