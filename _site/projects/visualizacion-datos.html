@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b914a645868b8d7366dc0cc3b04801f8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-0c1d0ae280ec230c88fc518880c75098.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -132,10 +132,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link active" href="../projects/index.html" aria-current="page"> 
-<span class="menu-text">Proyectos</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-proyectos" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Proyectos</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-proyectos">    
+        <li>
+    <a class="dropdown-item" href="../projects/ingenieria-datos.html">
+ <span class="dropdown-text">Ingeniería en Datos</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../projects/visualizacion-datos.html">
+ <span class="dropdown-text">Visualización de Datos</span></a>
+  </li>  
+    </ul>
+  </li>
   <li class="nav-item">
     <a class="nav-link" href="../photography/index.html"> 
 <span class="menu-text">Servicios Profesionales</span></a>
@@ -181,6 +192,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#introducción" id="toc-introducción" class="nav-link" data-scroll-target="#introducción">Introducción</a>
   <ul class="collapse">
   <li><a href="#operaciones-básicas" id="toc-operaciones-básicas" class="nav-link" data-scroll-target="#operaciones-básicas">Operaciones básicas</a></li>
+  <li><a href="#apps-en-shiny" id="toc-apps-en-shiny" class="nav-link" data-scroll-target="#apps-en-shiny">Apps en Shiny:</a>
+  <ul class="collapse">
+  <li><a href="#enemdu" id="toc-enemdu" class="nav-link" data-scroll-target="#enemdu"><strong>ENEMDU</strong></a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -223,7 +238,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>El presente es un Jupyter Notebook que demuestra gráficos utilizando la gramática de gráficos con Python, iniciaremos con la librería <strong>Matplotlib</strong></p>
 <section id="operaciones-básicas" class="level2">
 <h2 class="anchored" data-anchor-id="operaciones-básicas">Operaciones básicas</h2>
-<div id="712a6138" class="cell" data-execution_count="2">
+<div id="3c603ae8" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1258,7 +1273,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stdout">
 <pre><code>TIPO DE VARIABLES:</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<div class="cell-output cell-output-display" data-execution_count="17">
 <pre><code>AÑOS                  int64
 ENERO               float64
 FEBRERO             float64
@@ -1276,7 +1291,7 @@ PROMEDIO_MENSUAL    float64
 dtype: object</code></pre>
 </div>
 </div>
-<div id="71aa68a1" class="cell" data-execution_count="3">
+<div id="135d1562" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lista de meses en orden</span></span>
@@ -1423,8 +1438,18 @@ dtype: object</code></pre>
 </div>
 </div>
 <hr>
+</section>
+<section id="apps-en-shiny" class="level2">
+<h2 class="anchored" data-anchor-id="apps-en-shiny">Apps en Shiny:</h2>
+<section id="enemdu" class="level3">
+<h3 class="anchored" data-anchor-id="enemdu"><strong>ENEMDU</strong></h3>
+<div class="embed-container">
+<iframe src="https://marcelo-chavez.shinyapps.io/ENEMDU_VISOR/" width="100%" style="border: none;">
+</iframe>
+</div>
 
 
+</section>
 </section>
 </section>
 

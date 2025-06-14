@@ -52,7 +52,7 @@ website:
 
 project:
   type: website
-  output-dir: docs
+  output-dir: _site
 
   preview: 
     port: 22222
