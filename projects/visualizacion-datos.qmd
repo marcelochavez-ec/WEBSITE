@@ -221,77 +221,7 @@ display(df_inflacion)
 ### Gráfico de la Inflación desde el 2014 al 2025 en todos los meses de enero con fines comparativos:
 
 ```{python}
-import matplotlib.pyplot as plt
-import matplotlib.ticker as mtick
-import seaborn as sns
-
-# Asegurar tipos correctos
-df_inflacion["AÑO"] = df_inflacion["AÑO"].astype(int)
-
-# Estilo profesional
-plt.style.use('seaborn-v0_8-whitegrid')
-sns.set_context("notebook")
-
-# Crear figura y ajustar resolución
-fig, ax = plt.subplots(figsize=(5, 4), dpi=150)
-
-# Graficar barras divergentes
-colors = df_inflacion["ENERO"].apply(lambda x: "#004e98" if x >= 0 else "#e63946")  # azul para positivos, rojo para negativos
-bars = ax.bar(df_inflacion["AÑO"],
-              df_inflacion["ENERO"],
-              color=colors,
-              width=0.6)
-
-# Mostrar valores encima del eje X para negativos y encima de la barra para positivos, excepto 2014
-for x, y in zip(df_inflacion["AÑO"], df_inflacion["ENERO"]):
-    if x != 2014:
-        label_y = y + 0.02 if y >= 0 else 0.05  # por encima de la barra o del eje X
-        ax.text(x, label_y, f"{y:.2f}%", fontsize=6, ha='center', va='bottom',
-                color="#004e98" if y >= 0 else "#e63946")
-
-# Título y etiquetas
-ax.set_title("Comparativo de la Inflación Mensual - Enero (2014-2025)",
-             fontsize=12, fontweight='bold')
-ax.set_xlabel("Año", fontsize=8)
-ax.set_ylabel("Inflación", fontsize=8)
-
-# Mostrar todos los años como ticks
-ax.set_xticks(df_inflacion["AÑO"])
-
-# Formato porcentaje en eje Y
-ax.yaxis.set_major_formatter(mtick.PercentFormatter(decimals=2))
-
-# Ticks hacia adentro y tamaño de letra
-ax.tick_params(axis='x', direction='in', labelrotation=90, labelsize=6)
-ax.tick_params(axis='y', direction='in', labelsize=6)
-
-# Añadir línea base en 0 para referencia
-ax.axhline(0, color='black', linewidth=0.5)
-
-# Personalizar cuadrícula
-ax.grid(True, linestyle='--', alpha=0.3)
-
-# Añadir bordes negros al gráfico
-for spine in ax.spines.values():
-    spine.set_edgecolor('black')
-    spine.set_linewidth(0.5)
-
-# Footnote
-plt.figtext(0.5, -0.05,
-            "Fuente: Serie Histórica del IPC - INEC (a mayo 2025)",
-            wrap=True, horizontalalignment='right',
-            fontsize=7, style='italic')
-
-# Ajustar layout final
-plt.tight_layout()
-plt.show()
-```
-
-### Plotly
-
-```{python}
 import plotly.express as px
-import pandas as pd
 
 def graficar_inflacion_mensual_plotly(df, mes):
     if mes not in df.columns:
@@ -299,10 +229,10 @@ def graficar_inflacion_mensual_plotly(df, mes):
     
     df = df.copy()
     df["AÑO"] = df["AÑO"].astype(int)
-    
-    # Definir color según signo
-    df['color'] = df[mes].apply(lambda x: '#ff6347' if x >= 0 else '#77dd77')  # tomate / verde pastel
-    
+
+    # Colores: rojo tomate si positivo, verde pastel si negativo
+    df['color'] = df[mes].apply(lambda x: '#ff6347' if x >= 0 else '#77dd77')
+
     # Crear gráfico
     fig = px.bar(
         df,
@@ -313,17 +243,30 @@ def graficar_inflacion_mensual_plotly(df, mes):
         labels={mes: 'Inflación (%)', 'AÑO': 'Año'},
         title=f"Comparativo de la Inflación Mensual - {mes.capitalize()} (2014-2025)"
     )
-    
-    # Ajustar texto de etiquetas para mostrar el valor en porcentaje
+
+    # Añadir texto sobre las barras
     fig.update_traces(
         text=df[mes].apply(lambda x: f"{x:.2f}%"),
-        textposition=['outside' if val >= 0 else 'inside' for val in df[mes]],
-        marker_line_color='black', marker_line_width=0.5
+        textposition='outside',
+        marker_line_color='black',
+        marker_line_width=0.5
     )
-    
-    # Ajustar layout para que se vea mejor
+
+    # Eje Y en valores decimales (por ejemplo de -2 a 4)
+    # Eje Y más detallado (por ejemplo, de -2.0% a 2.0% cada 0.1)
+    fig.update_yaxes(
+        tickvals=[round(i * 0.1, 2) for i in range(-20, 21)],
+        title_text="Inflación (%)"
+    )
+
+    # Eje X con todos los años visibles
+    fig.update_xaxes(
+        tickvals=df["AÑO"].tolist(),
+        tickangle=90,
+        title_text="Año"
+    )
+    # Layout del gráfico
     fig.update_layout(
-        yaxis_tickformat=".2%",
         xaxis_tickangle=90,
         yaxis_title="Inflación",
         xaxis_title="Año",
@@ -334,11 +277,11 @@ def graficar_inflacion_mensual_plotly(df, mes):
         showlegend=False,
         margin=dict(t=50, b=80)
     )
-    
-    # Añadir línea horizontal en cero
+
+    # Línea horizontal en 0
     fig.add_hline(y=0, line_color='black', line_width=1)
-    
-    # Mostrar la figura
+
+    # Mostrar figura
     fig.show()
 graficar_inflacion_mensual_plotly(df_inflacion, "ENERO")
 ```
