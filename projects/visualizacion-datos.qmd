@@ -19,6 +19,8 @@ execute:
 
 <img src="ESTRUCTURA_MATPLOTLIB.png" style="height: 50%; width: 100%; object-fit: contain" onclick="window.open('https://arxiv.org/abs/2210.07278', 'blank');"/>
 
+<img src="DATASET_IPC_INEC.png" style="height: 50%; width: 50%; object-fit: contain" onclick="window.open('https://arxiv.org/abs/2210.07278', 'blank');"/>
+
 <a href="https://arxiv.org/abs/2210.07278" target="_blank">arXiv Preprint</a> | <a href="https://github.com/marvinschmitt/MetaUncertaintyPaper" target="_blank">Code</a><br>
 
 # Introducción
@@ -32,21 +34,27 @@ El presente es un Jupyter Notebook que demuestra gráficos utilizando la gramát
 import os
 
 # Cambia el directorio de trabajo
-os.chdir("D:/DATA_SCIENCE_ENDI/NOTEBOOKS_R/MULTIVARIANTE/MARCELO_WEBSITE/docs/projects/")
+os.chdir("D:/DATA_SCIENCE_ENDI/NOTEBOOKS_R/MULTIVARIANTE/MARCELO_WEBSITE/projects/")
 
 ```
-
 
 ```{python}
 import pandas as pd
 
 df_ipc = pd.read_excel("IPC/SERIE HISTORICA IPC_05_2025.xls",
-                        sheet_name="2. VARIACIÓN MENSUAL",
-                        skiprows=5,
-                        engine="xlrd",
-                        nrows=57)
-# Lista con los nombres correctos de las columnas
-nuevos_nombres = ["AÑOS",
+                        sheet_name="1. ÍNDICE",
+                        skiprows=4,
+                        engine="xlrd")
+
+# Find the first row where all cells are empty (NaN)
+fila_vacia = df_ipc[df_ipc.isnull().all(axis=1)].index
+
+# If an empty row is found, trim the DataFrame up to that row
+if not fila_vacia.empty:
+    df_ipc = df_ipc.iloc[:fila_vacia[0]]
+
+# List with the correct names of the columns
+nuevos_nombres = ["AÑO",
                   "ENERO", 
                   "FEBRERO",
                   "MARZO",
@@ -58,37 +66,141 @@ nuevos_nombres = ["AÑOS",
                   "SEPTIEMBRE", 
                   "OCTUBRE",
                   "NOVIEMBRE",
-                  "DICIEMBRE",
-                  "PROMEDIO_MENSUAL"]
+                  "DICIEMBRE"]
+
+# Assign the new names to the DataFrame
+df_ipc.columns = nuevos_nombres
 
 # Asignar los nuevos nombres al DataFrame
 df_ipc.columns = nuevos_nombres
-
-display(df_ipc)
-print("TIPO DE VARIABLES:")
-df_ipc.dtypes
+display(df_ipc.dtypes)
+display(df_ipc.shape)
+display(df_ipc.describe(include="all"))
 ```
 
+En Ecuador, la inflación se calcula a partir del **Índice de Precios al Consumidor (IPC)**, que es publicado mensualmente por el **Instituto Nacional de Estadística y Censos (INEC)**. El IPC es un indicador que mide la evolución promedio de los precios de una canasta representativa de bienes y servicios que consume la población (INEC, 2024). La inflación, a su vez, representa el cambio porcentual en el nivel general de precios de dichos bienes y servicios en un período determinado (Mishkin, 2015).
+
+### Fórmulas básicas para calcular la inflación a partir del IPC
+
+1. **Inflación mensual**  
+Mide cuánto han subido o bajado los precios de un mes respecto al mes anterior, expresado en porcentaje:
+
+$$
+\text{Inflación mensual (\%)} = \left( \frac{\text{IPC actual} - \text{IPC mes anterior}}{\text{IPC mes anterior}} \right) \times 100
+$$
+
+2. **Inflación acumulada en el año** (de enero al mes actual)  
+Refleja el cambio porcentual acumulado desde el inicio del año hasta el mes actual:
+
+$$
+\text{Inflación acumulada (\%)} = \left( \frac{\text{IPC mes actual} - \text{IPC enero}}{\text{IPC enero}} \right) \times 100
+$$
+
+3. **Inflación anual (interanual)**  
+Mide la variación porcentual en los precios respecto al mismo mes del año anterior:
+
+$$
+\text{Inflación anual (\%)} = \left( \frac{\text{IPC mes actual} - \text{IPC mismo mes año anterior}}{\text{IPC mismo mes año anterior}} \right) \times 100
+$$
+
+### Ejemplo con datos ficticios
+
+Supongamos los siguientes valores de IPC:
+
+- Junio 2024: 105.2  
+- Mayo 2024: 104.8  
+- Enero 2024: 102.0  
+- Junio 2023: 103.1  
+
+Cálculos:
+
+- **Inflación mensual (junio vs mayo):**  
+$$
+\frac{105.2 - 104.8}{104.8} \times 100 = 0.38\%
+$$
+
+- **Inflación acumulada (enero a junio 2024):**  
+$$
+\frac{105.2 - 102.0}{102.0} \times 100 = 3.14\%
+$$
+
+- **Inflación anual (junio 2024 vs junio 2023):**  
+$$
+\frac{105.2 - 103.1}{103.1} \times 100 = 2.04\%
+$$
+
+---
+
+### Notas adicionales
+
+- El IPC base en Ecuador actualmente corresponde a diciembre de 2014 = 100, producto de un cambio metodológico para mejorar la representatividad del índice (INEC, 2023).  
+- La inflación puede calcularse para el total nacional, así como para regiones o grupos específicos de gasto, tales como alimentos, transporte o vivienda (INEC, 2024).  
+- El cálculo se realiza usando los valores del IPC con decimales para mantener precisión (Mishkin, 2015).
+
+---
+
+### Referencias
+
+Instituto Nacional de Estadística y Censos. (2023). *Metodología del Índice de Precios al Consumidor*. https://www.ecuadorencifras.gob.ec/documentos/web-inec/IPC/Metodologia_IPC.pdf
+
+Instituto Nacional de Estadística y Censos. (2024). *Informe mensual del Índice de Precios al Consumidor*. https://www.ecuadorencifras.gob.ec/ipc
+
+Mishkin, F. S. (2015). *The Economics of Money, Banking and Financial Markets* (10th ed.). Pearson.
+
+---
+
 ```{python}
-# Lista de meses en orden
-meses = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO',
-         'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE']
+# =============================================================================
+# Calculation of IPC
+# =============================================================================
 
-# 1. Convertir de ancho a largo
-df_long = df_ipc.melt(id_vars='AÑOS', value_vars=meses,
-                  var_name='MES', value_name='VALOR')
+# Filter of DataFrame IPC desde el año base 2014=100
+df_ipc = df_ipc.loc[df_ipc['AÑO'] >= 2014].reset_index(drop=True)
 
-# 2. Crear un orden cronológico para los meses
-orden_meses = {mes: i+1 for i, mes in enumerate(meses)}
-df_long['MES_NUM'] = df_long['MES'].map(orden_meses)
+# Ordered list of months
+meses = ["ENERO", 
+         "FEBRERO",
+         "MARZO",
+         "ABRIL", 
+         "MAYO", 
+         "JUNIO",
+         "JULIO", 
+         "AGOSTO", 
+         "SEPTIEMBRE",
+         "OCTUBRE",
+         "NOVIEMBRE",
+         "DICIEMBRE"]
 
-# 3. Ordenar por año y mes
-df_long = df_long.sort_values(by=['AÑOS', 'MES_NUM']).reset_index(drop=True)
+# Create new DataFrame for monthly inflation
+df_inflacion = df_ipc[["AÑO"]].copy()
 
-# 4. Calcular variación absoluta y porcentual respecto al mes anterior
-df_long['VARIACION'] = df_long['VALOR'].diff()
-df_long['VARIACION_PORCENTUAL'] = df_long['VARIACION'] / df_long['VALOR'].shift(1) * 100
-display(df_long)
+# Base year (2014) equal to 100
+df_inflacion.loc[0, meses] = 1
+
+# Calculate monthly inflation for the following years
+for i in range(1, len(df_ipc)):
+    for j, mes in enumerate(meses):
+        valor_actual = df_ipc.loc[i, mes]
+
+        # Skip if None or NaN (case of 2025 from June)
+        if pd.isna(valor_actual):
+            continue
+
+        if j == 0:
+            # JANUARY: use DECEMBER of the preceding year
+            valor_anterior = df_ipc.loc[i-1, "DICIEMBRE"]
+        else:
+            # Rest of months: use the previous month of the same year.
+            valor_anterior = df_ipc.loc[i, meses[j-1]]
+
+        # Avoid calculation if previous value is None or NaN
+        if pd.isna(valor_anterior):
+            continue
+
+        inflacion = ((valor_actual - valor_anterior) / valor_actual) * 100
+        df_inflacion.loc[i, mes] = round(inflacion, 2)
+
+display(df_inflacion)
 ```
 
 ----
@@ -97,14 +209,139 @@ display(df_long)
 
 ### **ENEMDU**
 
-::: {.embed-container}
-<iframe 
-  src="https://marcelo-chavez.shinyapps.io/ENEMDU_VISOR/" 
-  width="100%" 
-  style="border: none;">
-</iframe>
-:::
+<div style="text-align: center;">
+  <iframe 
+    src="https://marcelo-chavez.shinyapps.io/ENEMDU_VISOR/" 
+    width="800" 
+    height="400" 
+    style="border: none;">
+  </iframe>
+</div>
 
+### Gráfico de la Inflación desde el 2014 al 2025 en todos los meses de enero con fines comparativos:
+
+```{python}
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mtick
+import seaborn as sns
+
+# Asegurar tipos correctos
+df_inflacion["AÑO"] = df_inflacion["AÑO"].astype(int)
+
+# Estilo profesional
+plt.style.use('seaborn-v0_8-whitegrid')
+sns.set_context("notebook")
+
+# Crear figura y ajustar resolución
+fig, ax = plt.subplots(figsize=(5, 4), dpi=150)
+
+# Graficar barras divergentes
+colors = df_inflacion["ENERO"].apply(lambda x: "#004e98" if x >= 0 else "#e63946")  # azul para positivos, rojo para negativos
+bars = ax.bar(df_inflacion["AÑO"],
+              df_inflacion["ENERO"],
+              color=colors,
+              width=0.6)
+
+# Mostrar valores encima del eje X para negativos y encima de la barra para positivos, excepto 2014
+for x, y in zip(df_inflacion["AÑO"], df_inflacion["ENERO"]):
+    if x != 2014:
+        label_y = y + 0.02 if y >= 0 else 0.05  # por encima de la barra o del eje X
+        ax.text(x, label_y, f"{y:.2f}%", fontsize=6, ha='center', va='bottom',
+                color="#004e98" if y >= 0 else "#e63946")
+
+# Título y etiquetas
+ax.set_title("Comparativo de la Inflación Mensual - Enero (2014-2025)",
+             fontsize=12, fontweight='bold')
+ax.set_xlabel("Año", fontsize=8)
+ax.set_ylabel("Inflación", fontsize=8)
+
+# Mostrar todos los años como ticks
+ax.set_xticks(df_inflacion["AÑO"])
+
+# Formato porcentaje en eje Y
+ax.yaxis.set_major_formatter(mtick.PercentFormatter(decimals=2))
+
+# Ticks hacia adentro y tamaño de letra
+ax.tick_params(axis='x', direction='in', labelrotation=90, labelsize=6)
+ax.tick_params(axis='y', direction='in', labelsize=6)
+
+# Añadir línea base en 0 para referencia
+ax.axhline(0, color='black', linewidth=0.5)
+
+# Personalizar cuadrícula
+ax.grid(True, linestyle='--', alpha=0.3)
+
+# Añadir bordes negros al gráfico
+for spine in ax.spines.values():
+    spine.set_edgecolor('black')
+    spine.set_linewidth(0.5)
+
+# Footnote
+plt.figtext(0.5, -0.05,
+            "Fuente: Serie Histórica del IPC - INEC (a mayo 2025)",
+            wrap=True, horizontalalignment='right',
+            fontsize=7, style='italic')
+
+# Ajustar layout final
+plt.tight_layout()
+plt.show()
+```
+
+### Plotly
+
+```{python}
+import plotly.express as px
+import pandas as pd
+
+def graficar_inflacion_mensual_plotly(df, mes):
+    if mes not in df.columns:
+        raise ValueError(f"'{mes}' no es una columna válida en el DataFrame.")
+    
+    df = df.copy()
+    df["AÑO"] = df["AÑO"].astype(int)
+    
+    # Definir color según signo
+    df['color'] = df[mes].apply(lambda x: '#ff6347' if x >= 0 else '#77dd77')  # tomate / verde pastel
+    
+    # Crear gráfico
+    fig = px.bar(
+        df,
+        x='AÑO',
+        y=mes,
+        color='color',
+        color_discrete_map="identity",
+        labels={mes: 'Inflación (%)', 'AÑO': 'Año'},
+        title=f"Comparativo de la Inflación Mensual - {mes.capitalize()} (2014-2025)"
+    )
+    
+    # Ajustar texto de etiquetas para mostrar el valor en porcentaje
+    fig.update_traces(
+        text=df[mes].apply(lambda x: f"{x:.2f}%"),
+        textposition=['outside' if val >= 0 else 'inside' for val in df[mes]],
+        marker_line_color='black', marker_line_width=0.5
+    )
+    
+    # Ajustar layout para que se vea mejor
+    fig.update_layout(
+        yaxis_tickformat=".2%",
+        xaxis_tickangle=90,
+        yaxis_title="Inflación",
+        xaxis_title="Año",
+        uniformtext_minsize=6,
+        uniformtext_mode='hide',
+        plot_bgcolor='white',
+        legend_title_text='',
+        showlegend=False,
+        margin=dict(t=50, b=80)
+    )
+    
+    # Añadir línea horizontal en cero
+    fig.add_hline(y=0, line_color='black', line_width=1)
+    
+    # Mostrar la figura
+    fig.show()
+graficar_inflacion_mensual_plotly(df_inflacion, "ENERO")
+```
 
 
 
