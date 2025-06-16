@@ -229,31 +229,37 @@ def graficar_inflacion_mensual_plotly(df, mes):
     
     df = df.copy()
     df["AÑO"] = df["AÑO"].astype(int)
+    df = df.sort_values(by='AÑO')
 
-    # Colores: rojo tomate si positivo, verde pastel si negativo
-    df['color'] = df[mes].apply(lambda x: '#ff6347' if x >= 0 else '#77dd77')
+    # Crear columna categórica para color
+    df['signo'] = df[mes].apply(lambda x: 'Negativo' if x < 0 else 'Positivo')
 
-    # Crear gráfico
+    # Colores para categorías
+    color_map = {'Positivo': '#ff6347', 'Negativo': '#77dd77'}
+
+    # Crear columna para texto en formato porcentaje
+    df['texto'] = df[mes].apply(lambda x: f"{x:.2f}%")
+
+    # Crear gráfico pasando el texto directamente
     fig = px.bar(
         df,
         x='AÑO',
         y=mes,
-        color='color',
-        color_discrete_map="identity",
+        color='signo',
+        color_discrete_map=color_map,
+        text='texto',  # <--- texto pasa aquí directamente
         labels={mes: 'Inflación (%)', 'AÑO': 'Año'},
         title=f"Comparativo de la Inflación Mensual - {mes.capitalize()} (2014-2025)"
     )
 
-    # Añadir texto sobre las barras
+    # Ajustar posición del texto: afuera para positivos, adentro para negativos
     fig.update_traces(
-        text=df[mes].apply(lambda x: f"{x:.2f}%"),
-        textposition='outside',
+        textposition=df['signo'].apply(lambda x: 'outside' if x == 'Positivo' else 'inside'),
         marker_line_color='black',
         marker_line_width=0.5
     )
 
-    # Eje Y en valores decimales (por ejemplo de -2 a 4)
-    # Eje Y más detallado (por ejemplo, de -2.0% a 2.0% cada 0.1)
+    # Eje Y con ticks cada 0.1, rango -2 a 2
     fig.update_yaxes(
         tickvals=[round(i * 0.1, 2) for i in range(-20, 21)],
         title_text="Inflación (%)"
@@ -265,7 +271,8 @@ def graficar_inflacion_mensual_plotly(df, mes):
         tickangle=90,
         title_text="Año"
     )
-    # Layout del gráfico
+
+    # Layout general
     fig.update_layout(
         xaxis_tickangle=90,
         yaxis_title="Inflación",
@@ -274,14 +281,12 @@ def graficar_inflacion_mensual_plotly(df, mes):
         uniformtext_mode='hide',
         plot_bgcolor='white',
         legend_title_text='',
-        showlegend=False,
         margin=dict(t=50, b=80)
     )
 
     # Línea horizontal en 0
     fig.add_hline(y=0, line_color='black', line_width=1)
 
-    # Mostrar figura
     fig.show()
 graficar_inflacion_mensual_plotly(df_inflacion, "ENERO")
 ```
