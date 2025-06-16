@@ -289,6 +289,10 @@ def graficar_inflacion_mensual_plotly(df, mes):
 
     fig.show()
 graficar_inflacion_mensual_plotly(df_inflacion, "ENERO")
+graficar_inflacion_mensual_plotly(df_inflacion, "FEBRERO")
+graficar_inflacion_mensual_plotly(df_inflacion, "MARZO")
+graficar_inflacion_mensual_plotly(df_inflacion, "ABRIL")
+graficar_inflacion_mensual_plotly(df_inflacion, "MAYO")
 ```
 
 
