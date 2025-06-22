@@ -18,8 +18,10 @@ website:
         menu:
           - text: "Ingeniería en Datos"
             href: projects/ingenieria-datos.qmd
-          - text: "Visualización de Datos"
-            href: projects/visualizacion-datos.qmd
+          - text: "Visualización de Datos con Python"
+            href: projects/visualizacion-datos-python.qmd
+          - text: "Visualización de Datos con R"
+            href: projects/visualizacion-datos-r.qmd
       - text: "Servicios Profesionales"
         href: photography/index.qmd
       - text: "CV"

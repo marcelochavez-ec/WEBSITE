@@ -1,0 +1,243 @@
+---
+title: "VISUALIZACIÓN DE DATOS CON **R**"
+subtitle: |
+  <table style="width: 100%; border-collapse: collapse; margin-top: 0.5rem; margin-bottom: 1rem;">
+    <tr>
+      <td style="border: 1px solid #b4b8ab; padding: 0.4rem 0.8rem; font-weight: bold; background-color: #e3eaf2; width: 25%;">Autor:</td>
+      <td style="border: 1px solid #b4b8ab; padding: 0.4rem 0.8rem;">Marcelo Chávez</td>
+      <td style="border: 1px solid #b4b8ab; padding: 0.4rem 0.8rem; font-weight: bold; background-color: #e3eaf2; width: 25%;">Versión:</td>
+      <td style="border: 1px solid #b4b8ab; padding: 0.4rem 0.8rem;">1.0</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #b4b8ab; padding: 0.4rem 0.8rem; font-weight: bold; background-color: #e3eaf2;">Fecha de versión:</td>
+      <td style="border: 1px solid #b4b8ab; padding: 0.4rem 0.8rem;">21 de junio de 2025</td>
+      <td style="border: 1px solid #b4b8ab; padding: 0.4rem 0.8rem; font-weight: bold; background-color: #e3eaf2;">Tipo de documento:</td>
+      <td style="border: 1px solid #b4b8ab; padding: 0.4rem 0.8rem;">Taller de visualización de datos con <b>R</b></td>
+    </tr>
+  </table>
+lang: es
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    code-fold: true
+    code-fold-default: false
+    toc-title: "TABLA DE CONTENIDOS"
+    toc-location: left
+    number-sections: true
+    page-layout: full
+    grid:                      # <- corregido nivel de indentación
+      sidebar-width: 380px
+      margin-width: 0px
+      gutter-width: 0.5rem  # más espacio entre menú y cuerpo
+    sidebar:
+      style: docked
+      title: "MENÚ PRINCIPAL"
+      collapse-level: 2
+knitr:
+  opts_knit:
+    root.dir: "D:/DATA_SCIENCE_ENDI/NOTEBOOKS_R/MULTIVARIANTE/MARCELO_WEBSITE/"
+---
+
+:::{.text-center}
+<img src="/img/R_LOGO.png" style="height: 30%; width: 30%;" />
+:::
+
+# Introducción a la visualización de datos con R utilizando _*ggplot2*_
+
+## Objetivos de la Visualización de Datos con R y ggplot2
+
+La visualización de datos, especialmente mediante `ggplot2`, cumple diversos propósitos esenciales en el análisis estadístico y la comunicación científica. Entre los más destacados se encuentran:
+
+1. **Exploración de datos (data exploration).**  
+   La visualización permite detectar patrones, relaciones, valores atípicos y errores en los datos antes de aplicar modelos estadísticos.
+
+2. **Comunicación efectiva.**  
+   Traducir resultados complejos en gráficos comprensibles para audiencias técnicas y no técnicas.
+
+3. **Comparación y contraste.**  
+   Facilitar la comparación entre categorías, tendencias en el tiempo o relaciones entre variables.
+
+4. **Síntesis de información.**  
+   Condensar grandes volúmenes de datos en representaciones gráficas que resumen la información de forma clara y accesible.
+
+5. **Reproducibilidad y claridad.**  
+   `ggplot2` ofrece una estructura declarativa basada en la gramática de los gráficos que promueve código limpio, escalable y reproducible.
+
+> Como lo indica Healy (2018):  
+> “Una buena visualización no es solo atractiva, sino que también guía al lector hacia una interpretación precisa y honesta de los datos.”  
+
+---
+
+## Wickham, H. (2010, 2016)
+
+**Resumen:**  
+Hadley Wickham es el creador de `ggplot2`, un paquete que implementa la gramática de los gráficos propuesta por Leland Wilkinson. El enfoque de `ggplot2` permite construir gráficos complejos de manera coherente, separando los componentes en datos, mapeos estéticos, geometrías, estadísticas, facetas, escalas y temas.
+
+**Referencia APA 7:**  
+Wickham, H. (2016). *ggplot2: Elegant graphics for data analysis* (2nd ed.). Springer. https://ggplot2-book.org
+
+---
+
+## Wilkinson, L. (2005)
+
+**Resumen:**  
+Wilkinson introduce la “gramática de los gráficos”, un marco teórico para construir visualizaciones a partir de componentes básicos. Este modelo fue la base conceptual para el desarrollo de `ggplot2` en R.
+
+**Referencia APA 7:**  
+Wilkinson, L. (2005). *The grammar of graphics* (2nd ed.). Springer.
+
+---
+
+## Healy, K. (2018)
+
+**Resumen:**  
+Healy presenta una introducción práctica a la visualización con R, haciendo énfasis en cómo los gráficos deben alinearse con los principios de diseño y percepción humana. Su obra combina teoría, ética y práctica con ejemplos usando `ggplot2`.
+
+**Referencia APA 7:**  
+Healy, K. (2018). *Data visualization: A practical introduction*. Princeton University Press.
+
+---
+
+## Wilke, C. O. (2019)
+
+**Resumen:**  
+Wilke ofrece un enfoque basado en principios de diseño visual para científicos de datos. Aborda la elección de tipos de gráficos, uso adecuado de color, diseño de leyendas y cómo evitar distorsiones visuales. Utiliza `ggplot2` como herramienta principal.
+
+**Referencia APA 7:**  
+Wilke, C. O. (2019). *Fundamentals of data visualization*. O’Reilly Media.
+
+---
+
+# Fundamentos del uso de `ggplot2` en R
+
+`ggplot2` es un paquete del ecosistema Tidyverse que implementa una gramática de gráficos para la visualización de datos en R. Su uso se basa en una estructura aditiva y modular:
+
+- **Datos (`data`)**: fuente que contiene las variables.
+- **Estéticos (`aes`)**: asignaciones visuales como posición, color, forma, etc.
+- **Geometrías (`geom`)**: tipo de gráfico (barras, líneas, puntos, etc.).
+- **Estadísticas (`stat`)**: transformaciones automáticas como conteo, resumen.
+- **Facetas (`facet`)**: subdivisión del gráfico en paneles por categorías.
+- **Escalas y temas (`scale`, `theme`)**: personalización de apariencia.
+
+---
+
+# Aplicaciones modernas de `ggplot2`
+
+- Análisis exploratorio de datos (EDA)
+- Visualización en reportes científicos y dashboards
+- Comunicación pública de resultados estadísticos
+- Enseñanza de estadística y ciencia de datos
+- Presentaciones interactivas con `plotly` o `shiny`
+
+---
+
+# Ventajas de `ggplot2`
+
+- Reproducibilidad y estructura coherente
+- Altamente personalizable
+- Compatible con múltiples formatos (HTML, PDF, imagen)
+- Base para gráficos interactivos
+
+---
+
+# Limitaciones de `ggplot2`
+
+- Curva de aprendizaje inicial
+- Gráficos complejos requieren composición manual
+- Menor rendimiento con datasets muy grandes (en comparación con `plotly` o `highcharter`)
+
+---
+
+# Conexión con otros métodos de análisis visual
+
+- `plotly::ggplotly()` → interactividad
+- `patchwork`, `cowplot` → composición de múltiples gráficos
+- `gganimate` → visualizaciones animadas
+- `ggthemes`, `hrbrthemes` → estilos personalizados
+- `ggsf` → visualización espacial (mapas con objetos `sf`)
+
+---
+
+# Referencias
+
+Wickham, H. (2016). *ggplot2: Elegant graphics for data analysis* (2nd ed.). Springer. https://ggplot2-book.org  
+Wilkinson, L. (2005). *The grammar of graphics* (2nd ed.). Springer.  
+Healy, K. (2018). *Data visualization: A practical introduction*. Princeton University Press.  
+Wilke, C. O. (2019). *Fundamentals of data visualization*. O’Reilly Media.  
+R Core Team. (2024). *R: A language and environment for statistical computing*. R Foundation for Statistical Computing. https://www.R-project.org  
+Tidyverse. (2024). *ggplot2: Create elegant data visualisations using the grammar of graphics*. https://ggplot2.tidyverse.org
+
+---
+
+# Casos de uso:
+
+## Taller de **ggplot2** para la variable _Ingreso de asalariados y/o empleados domésticos_ de la Encuesta ENEMDU 1er trimeste 2025 del INEC:
+
+El objetivo de la Encuesta Nacional de Empleo, Desempleo y Subempleo (ENEMDU), es proveer información sobre la actividad económica y las fuentes de ingreso de la población. La ENEMDU está diseñada para proporcionar estadísticas sobre los niveles, tendencias y cambios en el tiempo de varios indicadores de mercado laboral como la población económicamente activa, población económicamente inactiva, empleo adecuado, subempleo y desempleo en Ecuador, entre los más importantes. Así, los resultados que se presentan en las siguientes secciones corresponden a las cifras de mercado laboral de la muestra acumulada de los meses de enero a marzo de 2025. El tamaño de esta acumulación es de **26.351 viviendas**, lo cual brinda una representatividad, a nivel nacional, urbano, rural, a nivel de 5 ciudades: Quito, Guayaquil, Cuenca, Machala y Ambato.
+
+### Principales aspectos metodológicos
+
+A continuación, se detallan los principales aspectos metodológicos de la encuesta levantada durante el trimestre **enero - marzo de 2025**:
+
+- **Población objetivo:** Personas de 5 años y más (informante directo y calificado).
+- **Cobertura geográfica:** Todo el territorio nacional.
+- **Representatividad:** Nacional, urbano, rural y cinco ciudades: Quito, Guayaquil, Cuenca, Machala y Ambato.
+- **Período de levantamiento:** Enero, febrero y marzo de 2025.
+- **Tamaño muestral:** 26.351 viviendas.
+- **Método de recolección de la información:** Entrevista presencial (100%).
+
+## Scripting:
+```{r grafico_1, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
+library(tidyverse)
+library(tidymodels)
+library(foreign)
+library(ggplot2)
+library(ggthemes)
+library(grid)  # Para usar element_markdown
+
+# Reading files of SPSS of Trimestral 2025 ENEMDU - INEC
+enemdu_tri <- read.spss("bdd/ENEMDU/enemdu_persona_2025_l_trimestre.sav",
+                        use.value.labels = T, to.data.frame = T)
+
+# Select aletaorio of variables for graphic with ggplot2:
+
+df_1 <- enemdu_tri %>% 
+  select(p03,
+         p66) %>% 
+  filter(!p66 %in% c(999999, 0)) %>% 
+  drop_na()
+
+# Graphic 1: Variable of ingreso:
+
+ggplot(df_1, aes(x = p66)) +
+  geom_histogram(bins = 200, fill = "steelblue", color = "white") +
+  labs(
+    title = "Distribución de la variable\nIngreso de asalariados\n y/o empleados domésticos",
+    x = "Ingresos en USD",
+    y = "Frecuencia",
+    caption = "Fuente INEC: ENEMDU 1er trimestre 2025"
+  ) +
+  coord_cartesian(xlim = c(0, 5000)) +
+  scale_x_continuous(breaks = seq(0, 5000, by = 250)) +
+  theme_excel_new() +
+  theme(
+    panel.border = element_rect(color = "black", fill = NA, size = 1),
+    plot.background = element_rect(color = "black", fill = NA, linewidth = 1),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.caption = element_text(size = 9, hjust = 0, face = "plain"),
+    axis.title.x = element_text(face = "bold"),
+    axis.title.y = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = 7))
+```
+
+**Análisis del gráfico 1:** En el 1er trimestre de Encuesta Nacional de Empleo,
+Desempleo y Subempleo (ENEMDU), I Trimestre 2025, reporta que de Se puede observar que del gráfico de histograma del variable Ingreso en USD, muestra que el promedio de los datos puede estar entre 400 a 600 USD, de un población representativa en el 1er Trimes de la ENEMDU, existen valores rangos de valore mayore a 1000, habría que analizar a través de un BoxPlot según los niveles de edad
+
+
+
+
+

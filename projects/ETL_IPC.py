@@ -4,7 +4,7 @@ Created on Sat Jun 14 07:24:08 2025
 
 @author: MARCELO
 """
-%reset -f
+# %reset -f
 
 # Setting of directory of work
 import os
