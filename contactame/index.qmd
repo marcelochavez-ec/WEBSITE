@@ -3,6 +3,4 @@ title: Contáctame
 format: html
 ---
 
-# Página con información para LinkedIn, GitHub, WhatsApp, y correo electrónico
-
-Contenido próximamente...
+# Página con información para LinkedIn, GitHub, WhatsApp, y correo electrónico próximamente...
