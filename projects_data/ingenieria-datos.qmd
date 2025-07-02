@@ -3,4 +3,121 @@ title: Ingeniería de Datos
 format: html
 ---
 
-# Página de Ingeniería de Datos con contenido próximamente...
+# 📊 Plantilla de Control de Calidad de Datos por Capas
+
+## 🔍 Introducción técnica
+
+El **control de calidad de los datos (Data Quality Control)** es un componente esencial dentro de cualquier arquitectura de datos moderna, especialmente en proyectos de inteligencia de negocios (BI), planificación pública, o monitoreo de políticas públicas. Su objetivo es garantizar que los datos utilizados para análisis, reportes e indicadores sean confiables, consistentes y trazables.
+
+Una estrategia efectiva de calidad de datos debe implementarse **por capas**, es decir, alineada a las etapas del procesamiento de datos: desde la ingesta hasta la visualización final. Este enfoque modular permite que cada equipo (ETL, DWH, analítica, visualización) tenga responsabilidades específicas.
+
+---
+
+## 🎯 Caso piloto de referencia
+
+**Proyecto**: Observatorio de Ventas Locales y Actividades Económicas  
+**Entidad**: Gobierno Municipal + PNUD  
+**Objetivo**: Crear un sistema de información para analizar las ventas y actividades económicas a nivel de parroquia, cantón y ciudad, con indicadores desagregados por sector económico.  
+
+**Problema detectado**:  
+Los datos iniciales presentaban duplicados, fechas inválidas, diferencias entre fuentes, y errores en los modelos OLAP. Esto motivó la implementación de una política de calidad por capas.
+
+---
+
+## 🧱 Capa 1: Fuente de Datos / Ingesta
+
+### 🎯 Objetivo  
+Asegurar que los datos provenientes de sistemas transaccionales, archivos externos o APIs sean válidos antes de ser transformados o almacenados.
+
+### ⚙️ Procedimiento  
+- Validar tipos de datos, formatos y longitudes  
+- Identificar valores nulos o inválidos  
+- Aplicar reglas mínimas de negocio (ej. fechas no futuras, RUCs válidos)  
+- Registrar errores en bitácoras
+
+### 📋 Tabla resumen
+
+| Campo         | Regla de Validación                          | Tipo de Regla     | Frecuencia | Responsable     | Estado |
+|---------------|----------------------------------------------|-------------------|------------|-----------------|--------|
+| RUC           | Longitud = 13, solo números                  | Formato           | Diaria     | Equipo ETL      | ✅     |
+| Fecha ingreso | Fecha válida y menor o igual a hoy           | Lógica temporal   | Diaria     | Equipo ETL      | ✅     |
+| Cédula        | No duplicada en la tabla de personas         | Unicidad          | Diaria     | QA de datos     | 🔄     |
+| Monto ventas  | Mayor o igual a 0                            | Rango             | Semanal    | QA de datos     | ✅     |
+
+---
+
+## 🏗 Capa 2: Integración / DWH
+
+### 🎯 Objetivo  
+Consolidar datos transformados, validados y enriquecidos en un almacén estructurado. Verificar que cumplan con reglas de integridad y coherencia de negocio.
+
+### ⚙️ Procedimiento  
+- Verificar claves foráneas y jerarquías  
+- Validar consistencia entre tablas  
+- Aplicar reglas contables, totales y reconciliaciones  
+- Automatizar reglas de negocio complejas
+
+### 📋 Tabla resumen
+
+| Campo / Tabla    | Regla de Consistencia                                 | Tipo de Regla     | Frecuencia | Responsable     | Estado |
+|------------------|--------------------------------------------------------|-------------------|------------|-----------------|--------|
+| Cliente_ID       | Existe en tabla de clientes                            | Integridad FK     | Diaria     | DBA / BI        | ✅     |
+| Código producto  | Igual definición en catálogo oficial                   | Consistencia ref. | Semanal    | Datos maestros  | ✅     |
+| Ventas           | Ventas por mes deben cuadrar con totales históricos    | Reconciliación    | Mensual    | Equipo BI       | 🔄     |
+
+---
+
+## 🧠 Capa 3: Modelo Semántico / OLAP
+
+### 🎯 Objetivo  
+Verificar que los modelos analíticos (cubos OLAP, modelos tabulares) reflejen correctamente las definiciones institucionales, jerarquías geográficas y cálculos de KPIs.
+
+### ⚙️ Procedimiento  
+- Verificar consistencia de medidas agregadas  
+- Validar fórmulas DAX/MDX con definiciones oficiales  
+- Confirmar jerarquías (ej. parroquia → cantón → provincia)
+
+### 📋 Tabla resumen
+
+| Indicador           | Regla de Validación                                 | Frecuencia | Responsable   | Estado |
+|---------------------|-----------------------------------------------------|------------|---------------|--------|
+| Ventas totales      | Suma de ventas locales + exportaciones              | Mensual    | Analista BI   | ✅     |
+| Variación % anual   | [(año t) - (año t-1)] / (año t-1)                    | Mensual    | Analista BI   | ✅     |
+| Jerarquía geográfica| Parroquia → Cantón → Provincia coherente            | Mensual    | Modelador BI  | 🔄     |
+
+---
+
+## 📊 Capa 4: Visualización / Reportes
+
+### 🎯 Objetivo  
+Garantizar que la representación final de los datos sea clara, exacta, comprensible y que respete las definiciones, fuentes y unidades.
+
+### ⚙️ Procedimiento  
+- Revisar títulos, leyendas y unidades de medida  
+- Comparar resultados con fuentes oficiales (ej. INEC)  
+- Validar visualmente datos y tendencias
+
+### 📋 Tabla resumen
+
+| Dashboard / Informe | Verificación                                    | Responsable        | Frecuencia | Estado |
+|---------------------|-------------------------------------------------|--------------------|------------|--------|
+| Tablero de ventas   | KPIs tienen unidad y etiquetas correctas        | Diseñador BI       | Mensual    | ✅     |
+| Informe de pobreza  | Coincide con cifras del INEC                     | QA externo         | Trimestral | ✅     |
+| Título y fuente     | Cada gráfico tiene título y fuente visible      | QA visualización   | Mensual    | 🔄     |
+
+---
+
+## ✅ Conclusión
+
+El control de calidad por capas es una estrategia efectiva para garantizar que los datos soporten decisiones confiables. Cada equipo técnico debe asumir responsabilidad por su capa, apoyado en validaciones automatizadas, políticas institucionales y monitoreo continuo. Una cultura de calidad de datos es clave para el éxito de proyectos de BI y gobierno abierto.
+
+---
+
+## 📚 Referencias (formato APA 7)
+
+- DAMA International. (2017). *DAMA-DMBOK: Data Management Body of Knowledge* (2nd ed.). Technics Publications.  
+- Kimball, R., & Ross, M. (2013). *The Data Warehouse Toolkit: The Definitive Guide to Dimensional Modeling* (3rd ed.). Wiley.  
+- ISO. (2011). *ISO/IEC 25012:2011 - Software engineering — Software product Quality Requirements and Evaluation (SQuaRE) — Data quality model*.  
+- Brown, S. (2019). *Software Architecture for Developers* (2nd ed.). Leanpub.  
+- Eckerson, W. (2010). *Data Quality and the Bottom Line: Achieving Business Success through a Commitment to High Quality Data*. TDWI.
+

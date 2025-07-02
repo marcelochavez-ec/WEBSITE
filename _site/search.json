@@ -137,7 +137,7 @@
     "href": "servicios/index.html",
     "title": "Servicios Profesionales",
     "section": "",
-    "text": "Página de Servicios Profesionales\nContenido próximamente…"
+    "text": "Página con contenido próximamente…"
   },
   {
     "objectID": "projects_data/visualizacion-datos-python.html",
@@ -172,21 +172,21 @@
     "href": "projects_analytics/index.html",
     "title": "Proyectos en Analítica",
     "section": "",
-    "text": "Página de Proyectos en Analítica\nContenido próximamente…"
+    "text": "Página con contenido próximamente…"
   },
   {
     "objectID": "contactame/index.html",
     "href": "contactame/index.html",
     "title": "Contáctame",
     "section": "",
-    "text": "Página con información para poder contactarme\nContenido próximamente…"
+    "text": "Página con información para LinkedIn, GitHub, WhatsApp, y correo electrónico próximamente…"
   },
   {
     "objectID": "projects_data/ingenieria-datos.html",
     "href": "projects_data/ingenieria-datos.html",
     "title": "Ingeniería de Datos",
     "section": "",
-    "text": "Página de Ingeniería de Datos\nContenido próximamente…"
+    "text": "El control de calidad de los datos (Data Quality Control) es un componente esencial dentro de cualquier arquitectura de datos moderna, especialmente en proyectos de inteligencia de negocios (BI), planificación pública, o monitoreo de políticas públicas. Su objetivo es garantizar que los datos utilizados para análisis, reportes e indicadores sean confiables, consistentes y trazables.\nUna estrategia efectiva de calidad de datos debe implementarse por capas, es decir, alineada a las etapas del procesamiento de datos: desde la ingesta hasta la visualización final. Este enfoque modular permite que cada equipo (ETL, DWH, analítica, visualización) tenga responsabilidades específicas.\n\n\n\n\nProyecto: Observatorio de Ventas Locales y Actividades Económicas\nEntidad: Gobierno Municipal + PNUD\nObjetivo: Crear un sistema de información para analizar las ventas y actividades económicas a nivel de parroquia, cantón y ciudad, con indicadores desagregados por sector económico.\nProblema detectado:\nLos datos iniciales presentaban duplicados, fechas inválidas, diferencias entre fuentes, y errores en los modelos OLAP. Esto motivó la implementación de una política de calidad por capas.\n\n\n\n\n\n\nAsegurar que los datos provenientes de sistemas transaccionales, archivos externos o APIs sean válidos antes de ser transformados o almacenados.\n\n\n\n\nValidar tipos de datos, formatos y longitudes\n\nIdentificar valores nulos o inválidos\n\nAplicar reglas mínimas de negocio (ej. fechas no futuras, RUCs válidos)\n\nRegistrar errores en bitácoras\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCampo\nRegla de Validación\nTipo de Regla\nFrecuencia\nResponsable\nEstado\n\n\n\n\nRUC\nLongitud = 13, solo números\nFormato\nDiaria\nEquipo ETL\n✅\n\n\nFecha ingreso\nFecha válida y menor o igual a hoy\nLógica temporal\nDiaria\nEquipo ETL\n✅\n\n\nCédula\nNo duplicada en la tabla de personas\nUnicidad\nDiaria\nQA de datos\n🔄\n\n\nMonto ventas\nMayor o igual a 0\nRango\nSemanal\nQA de datos\n✅\n\n\n\n\n\n\n\n\n\n\nConsolidar datos transformados, validados y enriquecidos en un almacén estructurado. Verificar que cumplan con reglas de integridad y coherencia de negocio.\n\n\n\n\nVerificar claves foráneas y jerarquías\n\nValidar consistencia entre tablas\n\nAplicar reglas contables, totales y reconciliaciones\n\nAutomatizar reglas de negocio complejas\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCampo / Tabla\nRegla de Consistencia\nTipo de Regla\nFrecuencia\nResponsable\nEstado\n\n\n\n\nCliente_ID\nExiste en tabla de clientes\nIntegridad FK\nDiaria\nDBA / BI\n✅\n\n\nCódigo producto\nIgual definición en catálogo oficial\nConsistencia ref.\nSemanal\nDatos maestros\n✅\n\n\nVentas\nVentas por mes deben cuadrar con totales históricos\nReconciliación\nMensual\nEquipo BI\n🔄\n\n\n\n\n\n\n\n\n\n\nVerificar que los modelos analíticos (cubos OLAP, modelos tabulares) reflejen correctamente las definiciones institucionales, jerarquías geográficas y cálculos de KPIs.\n\n\n\n\nVerificar consistencia de medidas agregadas\n\nValidar fórmulas DAX/MDX con definiciones oficiales\n\nConfirmar jerarquías (ej. parroquia → cantón → provincia)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIndicador\nRegla de Validación\nFrecuencia\nResponsable\nEstado\n\n\n\n\nVentas totales\nSuma de ventas locales + exportaciones\nMensual\nAnalista BI\n✅\n\n\nVariación % anual\n[(año t) - (año t-1)] / (año t-1)\nMensual\nAnalista BI\n✅\n\n\nJerarquía geográfica\nParroquia → Cantón → Provincia coherente\nMensual\nModelador BI\n🔄\n\n\n\n\n\n\n\n\n\n\nGarantizar que la representación final de los datos sea clara, exacta, comprensible y que respete las definiciones, fuentes y unidades.\n\n\n\n\nRevisar títulos, leyendas y unidades de medida\n\nComparar resultados con fuentes oficiales (ej. INEC)\n\nValidar visualmente datos y tendencias\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDashboard / Informe\nVerificación\nResponsable\nFrecuencia\nEstado\n\n\n\n\nTablero de ventas\nKPIs tienen unidad y etiquetas correctas\nDiseñador BI\nMensual\n✅\n\n\nInforme de pobreza\nCoincide con cifras del INEC\nQA externo\nTrimestral\n✅\n\n\nTítulo y fuente\nCada gráfico tiene título y fuente visible\nQA visualización\nMensual\n🔄\n\n\n\n\n\n\n\n\nEl control de calidad por capas es una estrategia efectiva para garantizar que los datos soporten decisiones confiables. Cada equipo técnico debe asumir responsabilidad por su capa, apoyado en validaciones automatizadas, políticas institucionales y monitoreo continuo. Una cultura de calidad de datos es clave para el éxito de proyectos de BI y gobierno abierto.\n\n\n\n\n\nDAMA International. (2017). DAMA-DMBOK: Data Management Body of Knowledge (2nd ed.). Technics Publications.\n\nKimball, R., & Ross, M. (2013). The Data Warehouse Toolkit: The Definitive Guide to Dimensional Modeling (3rd ed.). Wiley.\n\nISO. (2011). ISO/IEC 25012:2011 - Software engineering — Software product Quality Requirements and Evaluation (SQuaRE) — Data quality model.\n\nBrown, S. (2019). Software Architecture for Developers (2nd ed.). Leanpub.\n\nEckerson, W. (2010). Data Quality and the Bottom Line: Achieving Business Success through a Commitment to High Quality Data. TDWI."
   },
   {
     "objectID": "projects_data/visualizacion-datos-r.html#objetivos-de-la-visualización-de-datos-con-r-y-ggplot2",
@@ -242,13 +242,181 @@
     "href": "projects_data/visualizacion-datos-power-bi.html",
     "title": "Proyectos en Datos",
     "section": "",
-    "text": "Página de Visualización de Datos con Power BI\nContenido próximamente…"
+    "text": "Página de Visualización de Datos con Power BI con contenido próximamente…"
   },
   {
     "objectID": "projects_data/apps-shiny.html",
     "href": "projects_data/apps-shiny.html",
     "title": "Proyectos en Datos",
     "section": "",
-    "text": "Página de Apps con Shiny\nContenido próximamente…"
+    "text": "Página con demos de Apps en Shiny próximamente…"
+  },
+  {
+    "objectID": "projects_data/metodologia-olap.html",
+    "href": "projects_data/metodologia-olap.html",
+    "title": "📊 Plantilla de Control de Calidad de Datos por Capas",
+    "section": "",
+    "text": "Campo\nRegla de Validación\nTipo de Regla\nFrecuencia\nResponsable\nEstado\n\n\n\n\nRUC\nLongitud = 13, solo números\nFormato\nDiaria\nEquipo ETL\n✅\n\n\nFecha ingreso\nFecha válida y menor o igual a hoy\nLógica temporal\nDiaria\nEquipo ETL\n✅\n\n\nCédula\nNo duplicada en la tabla de personas\nUnicidad\nDiaria\nQA de datos\n🔄\n\n\nMonto ventas\nMayor o igual a 0\nRango\nSemanal\nQA de datos\n✅\n\n\n\n---\n\n## Capa: Integración / DWH\n\n| Campo / Tabla      | Regla de Consistencia                                 | Tipo de Regla     | Frecuencia | Responsable     | Estado |\n|--------------------|--------------------------------------------------------|-------------------|------------|-----------------|--------|\n| Cliente_ID         | Existe en tabla de clientes                            | Integridad FK     | Diaria     | DBA / BI        | ✅     |\n| Código producto    | Igual definición en catálogo oficial                   | Consistencia ref. | Semanal    | Datos maestros  | ✅     |\n| Ventas             | Ventas por mes deben cuadrar con totales históricos    | Reconciliación    | Mensual    | Equipo BI       | 🔄     |\n\n---\n\n## Capa: Modelo Semántico / OLAP\n\n| Indicador          | Regla de Validación                           | Frecuencia | Responsable   | Estado |\n|--------------------|-----------------------------------------------|------------|---------------|--------|\n| Ventas totales     | Suma de ventas locales + exportaciones        | Mensual    | Analista BI   | ✅     |\n| Variación % anual  | [(año t) - (año t-1)] / (año t-1)              | Mensual    | Analista BI   | ✅     |\n| Jerarquía geográfica | Parroquia → Cantón → Provincia coherente     | Mensual    | Modelador BI  | 🔄     |\n\n---\n\n## Capa: Visualización / Reportes\n\n| Dashboard / Informe       | Verificación                              | Responsable    | Frecuencia | Estado |\n|---------------------------|-------------------------------------------|----------------|------------|--------|\n| Tablero de ventas         | KPIs tienen unidad y etiquetas correctas  | Diseñador BI   | Mensual    | ✅     |\n| Informe de pobreza        | Coincide con cifras del INEC               | QA externo     | Trimestral | ✅     |\n| Título y fuente           | Cada gráfico tiene título y fuente visible| QA visualización| Mensual    | 🔄     |"
+  },
+  {
+    "objectID": "projects_data/metodologia-olap.html#capa-fuente-de-datos-ingesta",
+    "href": "projects_data/metodologia-olap.html#capa-fuente-de-datos-ingesta",
+    "title": "📊 Plantilla de Control de Calidad de Datos por Capas",
+    "section": "",
+    "text": "Campo\nRegla de Validación\nTipo de Regla\nFrecuencia\nResponsable\nEstado\n\n\n\n\nRUC\nLongitud = 13, solo números\nFormato\nDiaria\nEquipo ETL\n✅\n\n\nFecha ingreso\nFecha válida y menor o igual a hoy\nLógica temporal\nDiaria\nEquipo ETL\n✅\n\n\nCédula\nNo duplicada en la tabla de personas\nUnicidad\nDiaria\nQA de datos\n🔄\n\n\nMonto ventas\nMayor o igual a 0\nRango\nSemanal\nQA de datos\n✅\n\n\n\n---\n\n## Capa: Integración / DWH\n\n| Campo / Tabla      | Regla de Consistencia                                 | Tipo de Regla     | Frecuencia | Responsable     | Estado |\n|--------------------|--------------------------------------------------------|-------------------|------------|-----------------|--------|\n| Cliente_ID         | Existe en tabla de clientes                            | Integridad FK     | Diaria     | DBA / BI        | ✅     |\n| Código producto    | Igual definición en catálogo oficial                   | Consistencia ref. | Semanal    | Datos maestros  | ✅     |\n| Ventas             | Ventas por mes deben cuadrar con totales históricos    | Reconciliación    | Mensual    | Equipo BI       | 🔄     |\n\n---\n\n## Capa: Modelo Semántico / OLAP\n\n| Indicador          | Regla de Validación                           | Frecuencia | Responsable   | Estado |\n|--------------------|-----------------------------------------------|------------|---------------|--------|\n| Ventas totales     | Suma de ventas locales + exportaciones        | Mensual    | Analista BI   | ✅     |\n| Variación % anual  | [(año t) - (año t-1)] / (año t-1)              | Mensual    | Analista BI   | ✅     |\n| Jerarquía geográfica | Parroquia → Cantón → Provincia coherente     | Mensual    | Modelador BI  | 🔄     |\n\n---\n\n## Capa: Visualización / Reportes\n\n| Dashboard / Informe       | Verificación                              | Responsable    | Frecuencia | Estado |\n|---------------------------|-------------------------------------------|----------------|------------|--------|\n| Tablero de ventas         | KPIs tienen unidad y etiquetas correctas  | Diseñador BI   | Mensual    | ✅     |\n| Informe de pobreza        | Coincide con cifras del INEC               | QA externo     | Trimestral | ✅     |\n| Título y fuente           | Cada gráfico tiene título y fuente visible| QA visualización| Mensual    | 🔄     |"
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#capa-fuente-de-datos-ingesta",
+    "href": "projects_data/ingenieria-datos.html#capa-fuente-de-datos-ingesta",
+    "title": "Ingeniería de Datos",
+    "section": "",
+    "text": "Campo\nRegla de Validación\nTipo de Regla\nFrecuencia\nResponsable\nEstado\n\n\n\n\nRUC\nLongitud = 13, solo números\nFormato\nDiaria\nEquipo ETL\n✅\n\n\nFecha ingreso\nFecha válida y menor o igual a hoy\nLógica temporal\nDiaria\nEquipo ETL\n✅\n\n\nCédula\nNo duplicada en la tabla de personas\nUnicidad\nDiaria\nQA de datos\n🔄\n\n\nMonto ventas\nMayor o igual a 0\nRango\nSemanal\nQA de datos\n✅"
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#objetivo",
+    "href": "projects_data/ingenieria-datos.html#objetivo",
+    "title": "Ingeniería de Datos",
+    "section": "1. Objetivo",
+    "text": "1. Objetivo\nEstablecer lineamientos para garantizar la calidad, confiabilidad, trazabilidad y uso adecuado de los datos en todos los procesos de transformación e inteligencia de negocios del proyecto."
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#ámbitos-de-aplicación",
+    "href": "projects_data/ingenieria-datos.html#ámbitos-de-aplicación",
+    "title": "Ingeniería de Datos",
+    "section": "2. Ámbitos de Aplicación",
+    "text": "2. Ámbitos de Aplicación\nEsta política se aplica a:\n\nBases de datos operativas\n\nProcesos de ETL/ELT\n\nAlmacenes de datos (DWH)\n\nCubos OLAP y modelos semánticos\n\nDashboards y reportes institucionales"
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#dimensiones-de-calidad-de-datos",
+    "href": "projects_data/ingenieria-datos.html#dimensiones-de-calidad-de-datos",
+    "title": "Ingeniería de Datos",
+    "section": "3. Dimensiones de Calidad de Datos",
+    "text": "3. Dimensiones de Calidad de Datos\n\n\n\n\n\n\n\nDimensión\nDescripción\n\n\n\n\nExactitud\nLos datos reflejan fielmente la realidad\n\n\nCompletitud\nNo hay datos obligatorios faltantes\n\n\nConsistencia\nNo hay contradicciones entre sistemas o fuentes\n\n\nValidez\nLos datos cumplen reglas de negocio y formatos esperados\n\n\nUnicidad\nNo hay duplicados indebidos\n\n\nTrazabilidad\nSe conoce el origen y transformación de cada dato"
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#roles-y-responsables",
+    "href": "projects_data/ingenieria-datos.html#roles-y-responsables",
+    "title": "Ingeniería de Datos",
+    "section": "4. Roles y Responsables",
+    "text": "4. Roles y Responsables\n\n\n\n\n\n\n\nRol\nResponsabilidad principal\n\n\n\n\nEquipo de ETL\nValidaciones técnicas, formatos, estructura inicial\n\n\nDBA / Administrador DWH\nReglas de integridad, claves foráneas, duplicados\n\n\nAnalistas de BI\nCálculo de KPIs, coherencia semántica\n\n\nQA de Datos\nValidación cruzada, pruebas de calidad\n\n\nGobierno de Datos\nPolítica, monitoreo, glosario, control general"
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#procesos-clave",
+    "href": "projects_data/ingenieria-datos.html#procesos-clave",
+    "title": "Ingeniería de Datos",
+    "section": "5. Procesos Clave",
+    "text": "5. Procesos Clave\n\nValidación automática en pipelines (scripts de control)\n\nUso de tablas de errores para seguimiento\n\nMétricas de calidad incluidas en reportes\n\nAuditoría de cambios en modelos y cálculos"
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#herramientas-recomendadas",
+    "href": "projects_data/ingenieria-datos.html#herramientas-recomendadas",
+    "title": "Ingeniería de Datos",
+    "section": "6. Herramientas Recomendadas",
+    "text": "6. Herramientas Recomendadas\n\nSQL (validación directa en base de datos)\n\nPower BI (KPI de calidad, reglas DAX)\n\nPython / R (análisis exploratorio y validación estadística)\n\nCatálogos de datos (Collibra, OpenMetadata, DataHub)"
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#indicadores-de-monitoreo",
+    "href": "projects_data/ingenieria-datos.html#indicadores-de-monitoreo",
+    "title": "Ingeniería de Datos",
+    "section": "7. Indicadores de Monitoreo",
+    "text": "7. Indicadores de Monitoreo\n\n\n\n\n\n\n\n\nIndicador\nFórmula / Descripción\nMeta\n\n\n\n\n% de registros válidos\nRegistros válidos / Total registros\n≥ 98%\n\n\n% de campos completos\nCampos no nulos / Total campos requeridos\n≥ 95%\n\n\nTiempo medio de corrección de errores\nHoras promedio desde error hasta solución\n≤ 48 h\n\n\nIncidentes de calidad por mes\nN.º de errores graves detectados\n≤ 3"
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#revisión-y-actualización",
+    "href": "projects_data/ingenieria-datos.html#revisión-y-actualización",
+    "title": "Ingeniería de Datos",
+    "section": "8. Revisión y Actualización",
+    "text": "8. Revisión y Actualización\nEsta política será revisada cada 6 meses o cuando se detecten cambios significativos en los procesos de datos."
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#anexos",
+    "href": "projects_data/ingenieria-datos.html#anexos",
+    "title": "Ingeniería de Datos",
+    "section": "9. Anexos",
+    "text": "9. Anexos\n\nGlosario de términos clave\n\nChecklists de validación por capa\n\nFormato de registro de errores y acciones correctivas"
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#capa-integración-dwh",
+    "href": "projects_data/ingenieria-datos.html#capa-integración-dwh",
+    "title": "Ingeniería de Datos",
+    "section": "",
+    "text": "Campo / Tabla\nRegla de Consistencia\nTipo de Regla\nFrecuencia\nResponsable\nEstado\n\n\n\n\nCliente_ID\nExiste en tabla de clientes\nIntegridad FK\nDiaria\nDBA / BI\n✅\n\n\nCódigo producto\nIgual definición en catálogo oficial\nConsistencia ref.\nSemanal\nDatos maestros\n✅\n\n\nVentas\nVentas por mes deben cuadrar con totales históricos\nReconciliación\nMensual\nEquipo BI\n🔄"
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#capa-modelo-semántico-olap",
+    "href": "projects_data/ingenieria-datos.html#capa-modelo-semántico-olap",
+    "title": "Ingeniería de Datos",
+    "section": "",
+    "text": "Indicador\nRegla de Validación\nFrecuencia\nResponsable\nEstado\n\n\n\n\nVentas totales\nSuma de ventas locales + exportaciones\nMensual\nAnalista BI\n✅\n\n\nVariación % anual\n[(año t) - (año t-1)] / (año t-1)\nMensual\nAnalista BI\n✅\n\n\nJerarquía geográfica\nParroquia → Cantón → Provincia coherente\nMensual\nModelador BI\n🔄"
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#capa-visualización-reportes",
+    "href": "projects_data/ingenieria-datos.html#capa-visualización-reportes",
+    "title": "Ingeniería de Datos",
+    "section": "",
+    "text": "Dashboard / Informe\nVerificación\nResponsable\nFrecuencia\nEstado\n\n\n\n\nTablero de ventas\nKPIs tienen unidad y etiquetas correctas\nDiseñador BI\nMensual\n✅\n\n\nInforme de pobreza\nCoincide con cifras del INEC\nQA externo\nTrimestral\n✅\n\n\nTítulo y fuente\nCada gráfico tiene título y fuente visible\nQA visualización\nMensual\n🔄"
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#referencias-bibliográficas",
+    "href": "projects_data/ingenieria-datos.html#referencias-bibliográficas",
+    "title": "Ingeniería de Datos",
+    "section": "📚 Referencias Bibliográficas:",
+    "text": "📚 Referencias Bibliográficas:\n\nDAMA International. (2017). DAMA-DMBOK: Data Management Body of Knowledge (2nd ed.). Technics Publications.\n\nKimball, R., & Ross, M. (2013). The Data Warehouse Toolkit: The Definitive Guide to Dimensional Modeling (3rd ed.). Wiley.\n\nISO. (2011). ISO/IEC 25012:2011 - Software engineering — Software product Quality Requirements and Evaluation (SQuaRE) — Data quality model.\n\nBrown, S. (2019). Software Architecture for Developers (2nd ed.). Leanpub.\n\nEckerson, W. (2010). Data Quality and the Bottom Line: Achieving Business Success through a Commitment to High Quality Data. TDWI."
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#introducción-técnica",
+    "href": "projects_data/ingenieria-datos.html#introducción-técnica",
+    "title": "Ingeniería de Datos",
+    "section": "",
+    "text": "El control de calidad de los datos (Data Quality Control) es un componente esencial dentro de cualquier arquitectura de datos moderna, especialmente en proyectos de inteligencia de negocios (BI), planificación pública, o monitoreo de políticas públicas. Su objetivo es garantizar que los datos utilizados para análisis, reportes e indicadores sean confiables, consistentes y trazables.\nUna estrategia efectiva de calidad de datos debe implementarse por capas, es decir, alineada a las etapas del procesamiento de datos: desde la ingesta hasta la visualización final. Este enfoque modular permite que cada equipo (ETL, DWH, analítica, visualización) tenga responsabilidades específicas."
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#caso-piloto-de-referencia",
+    "href": "projects_data/ingenieria-datos.html#caso-piloto-de-referencia",
+    "title": "Ingeniería de Datos",
+    "section": "",
+    "text": "Proyecto: Observatorio de Ventas Locales y Actividades Económicas\nEntidad: Gobierno Municipal + PNUD\nObjetivo: Crear un sistema de información para analizar las ventas y actividades económicas a nivel de parroquia, cantón y ciudad, con indicadores desagregados por sector económico.\nProblema detectado:\nLos datos iniciales presentaban duplicados, fechas inválidas, diferencias entre fuentes, y errores en los modelos OLAP. Esto motivó la implementación de una política de calidad por capas."
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#capa-1-fuente-de-datos-ingesta",
+    "href": "projects_data/ingenieria-datos.html#capa-1-fuente-de-datos-ingesta",
+    "title": "Ingeniería de Datos",
+    "section": "",
+    "text": "Asegurar que los datos provenientes de sistemas transaccionales, archivos externos o APIs sean válidos antes de ser transformados o almacenados.\n\n\n\n\nValidar tipos de datos, formatos y longitudes\n\nIdentificar valores nulos o inválidos\n\nAplicar reglas mínimas de negocio (ej. fechas no futuras, RUCs válidos)\n\nRegistrar errores en bitácoras\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCampo\nRegla de Validación\nTipo de Regla\nFrecuencia\nResponsable\nEstado\n\n\n\n\nRUC\nLongitud = 13, solo números\nFormato\nDiaria\nEquipo ETL\n✅\n\n\nFecha ingreso\nFecha válida y menor o igual a hoy\nLógica temporal\nDiaria\nEquipo ETL\n✅\n\n\nCédula\nNo duplicada en la tabla de personas\nUnicidad\nDiaria\nQA de datos\n🔄\n\n\nMonto ventas\nMayor o igual a 0\nRango\nSemanal\nQA de datos\n✅"
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#capa-2-integración-dwh",
+    "href": "projects_data/ingenieria-datos.html#capa-2-integración-dwh",
+    "title": "Ingeniería de Datos",
+    "section": "",
+    "text": "Consolidar datos transformados, validados y enriquecidos en un almacén estructurado. Verificar que cumplan con reglas de integridad y coherencia de negocio.\n\n\n\n\nVerificar claves foráneas y jerarquías\n\nValidar consistencia entre tablas\n\nAplicar reglas contables, totales y reconciliaciones\n\nAutomatizar reglas de negocio complejas\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCampo / Tabla\nRegla de Consistencia\nTipo de Regla\nFrecuencia\nResponsable\nEstado\n\n\n\n\nCliente_ID\nExiste en tabla de clientes\nIntegridad FK\nDiaria\nDBA / BI\n✅\n\n\nCódigo producto\nIgual definición en catálogo oficial\nConsistencia ref.\nSemanal\nDatos maestros\n✅\n\n\nVentas\nVentas por mes deben cuadrar con totales históricos\nReconciliación\nMensual\nEquipo BI\n🔄"
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#capa-3-modelo-semántico-olap",
+    "href": "projects_data/ingenieria-datos.html#capa-3-modelo-semántico-olap",
+    "title": "Ingeniería de Datos",
+    "section": "",
+    "text": "Verificar que los modelos analíticos (cubos OLAP, modelos tabulares) reflejen correctamente las definiciones institucionales, jerarquías geográficas y cálculos de KPIs.\n\n\n\n\nVerificar consistencia de medidas agregadas\n\nValidar fórmulas DAX/MDX con definiciones oficiales\n\nConfirmar jerarquías (ej. parroquia → cantón → provincia)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIndicador\nRegla de Validación\nFrecuencia\nResponsable\nEstado\n\n\n\n\nVentas totales\nSuma de ventas locales + exportaciones\nMensual\nAnalista BI\n✅\n\n\nVariación % anual\n[(año t) - (año t-1)] / (año t-1)\nMensual\nAnalista BI\n✅\n\n\nJerarquía geográfica\nParroquia → Cantón → Provincia coherente\nMensual\nModelador BI\n🔄"
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#capa-4-visualización-reportes",
+    "href": "projects_data/ingenieria-datos.html#capa-4-visualización-reportes",
+    "title": "Ingeniería de Datos",
+    "section": "",
+    "text": "Garantizar que la representación final de los datos sea clara, exacta, comprensible y que respete las definiciones, fuentes y unidades.\n\n\n\n\nRevisar títulos, leyendas y unidades de medida\n\nComparar resultados con fuentes oficiales (ej. INEC)\n\nValidar visualmente datos y tendencias\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDashboard / Informe\nVerificación\nResponsable\nFrecuencia\nEstado\n\n\n\n\nTablero de ventas\nKPIs tienen unidad y etiquetas correctas\nDiseñador BI\nMensual\n✅\n\n\nInforme de pobreza\nCoincide con cifras del INEC\nQA externo\nTrimestral\n✅\n\n\nTítulo y fuente\nCada gráfico tiene título y fuente visible\nQA visualización\nMensual\n🔄"
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#conclusión",
+    "href": "projects_data/ingenieria-datos.html#conclusión",
+    "title": "Ingeniería de Datos",
+    "section": "",
+    "text": "El control de calidad por capas es una estrategia efectiva para garantizar que los datos soporten decisiones confiables. Cada equipo técnico debe asumir responsabilidad por su capa, apoyado en validaciones automatizadas, políticas institucionales y monitoreo continuo. Una cultura de calidad de datos es clave para el éxito de proyectos de BI y gobierno abierto."
+  },
+  {
+    "objectID": "projects_data/ingenieria-datos.html#referencias-formato-apa-7",
+    "href": "projects_data/ingenieria-datos.html#referencias-formato-apa-7",
+    "title": "Ingeniería de Datos",
+    "section": "",
+    "text": "DAMA International. (2017). DAMA-DMBOK: Data Management Body of Knowledge (2nd ed.). Technics Publications.\n\nKimball, R., & Ross, M. (2013). The Data Warehouse Toolkit: The Definitive Guide to Dimensional Modeling (3rd ed.). Wiley.\n\nISO. (2011). ISO/IEC 25012:2011 - Software engineering — Software product Quality Requirements and Evaluation (SQuaRE) — Data quality model.\n\nBrown, S. (2019). Software Architecture for Developers (2nd ed.). Leanpub.\n\nEckerson, W. (2010). Data Quality and the Bottom Line: Achieving Business Success through a Commitment to High Quality Data. TDWI."
   }
 ]

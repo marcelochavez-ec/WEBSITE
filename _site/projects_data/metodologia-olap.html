@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Proyectos en Datos – Marcelo Chávez</title>
+<title>metodologia-olap – Marcelo Chávez</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -163,31 +163,101 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Proyectos en Datos</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
+<section id="plantilla-de-control-de-calidad-de-datos-por-capas" class="level1">
+<h1>📊 Plantilla de Control de Calidad de Datos por Capas</h1>
+<section id="capa-fuente-de-datos-ingesta" class="level2">
+<h2 class="anchored" data-anchor-id="capa-fuente-de-datos-ingesta">Capa: Fuente de Datos / Ingesta</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 39%">
+<col style="width: 16%">
+<col style="width: 10%">
+<col style="width: 14%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Campo</th>
+<th>Regla de Validación</th>
+<th>Tipo de Regla</th>
+<th>Frecuencia</th>
+<th>Responsable</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>RUC</td>
+<td>Longitud = 13, solo números</td>
+<td>Formato</td>
+<td>Diaria</td>
+<td>Equipo ETL</td>
+<td>✅</td>
+</tr>
+<tr class="even">
+<td>Fecha ingreso</td>
+<td>Fecha válida y menor o igual a hoy</td>
+<td>Lógica temporal</td>
+<td>Diaria</td>
+<td>Equipo ETL</td>
+<td>✅</td>
+</tr>
+<tr class="odd">
+<td>Cédula</td>
+<td>No duplicada en la tabla de personas</td>
+<td>Unicidad</td>
+<td>Diaria</td>
+<td>QA de datos</td>
+<td>🔄</td>
+</tr>
+<tr class="even">
+<td>Monto ventas</td>
+<td>Mayor o igual a 0</td>
+<td>Rango</td>
+<td>Semanal</td>
+<td>QA de datos</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<pre><code>---
+
+## Capa: Integración / DWH
+
+| Campo / Tabla      | Regla de Consistencia                                 | Tipo de Regla     | Frecuencia | Responsable     | Estado |
+|--------------------|--------------------------------------------------------|-------------------|------------|-----------------|--------|
+| Cliente_ID         | Existe en tabla de clientes                            | Integridad FK     | Diaria     | DBA / BI        | ✅     |
+| Código producto    | Igual definición en catálogo oficial                   | Consistencia ref. | Semanal    | Datos maestros  | ✅     |
+| Ventas             | Ventas por mes deben cuadrar con totales históricos    | Reconciliación    | Mensual    | Equipo BI       | 🔄     |
+
+---
+
+## Capa: Modelo Semántico / OLAP
+
+| Indicador          | Regla de Validación                           | Frecuencia | Responsable   | Estado |
+|--------------------|-----------------------------------------------|------------|---------------|--------|
+| Ventas totales     | Suma de ventas locales + exportaciones        | Mensual    | Analista BI   | ✅     |
+| Variación % anual  | [(año t) - (año t-1)] / (año t-1)              | Mensual    | Analista BI   | ✅     |
+| Jerarquía geográfica | Parroquia → Cantón → Provincia coherente     | Mensual    | Modelador BI  | 🔄     |
+
+---
+
+## Capa: Visualización / Reportes
+
+| Dashboard / Informe       | Verificación                              | Responsable    | Frecuencia | Estado |
+|---------------------------|-------------------------------------------|----------------|------------|--------|
+| Tablero de ventas         | KPIs tienen unidad y etiquetas correctas  | Diseñador BI   | Mensual    | ✅     |
+| Informe de pobreza        | Coincide con cifras del INEC               | QA externo     | Trimestral | ✅     |
+| Título y fuente           | Cada gráfico tiene título y fuente visible| QA visualización| Mensual    | 🔄     |</code></pre>
 
 
-</header>
-
-
-<section id="página-de-visualización-de-datos-con-power-bi-con-contenido-próximamente" class="level1">
-<h1>Página de Visualización de Datos con Power BI con contenido próximamente…</h1>
-
-
+</section>
 </section>
 
 </main> <!-- /main -->

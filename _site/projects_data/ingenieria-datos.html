@@ -184,11 +184,314 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="página-de-ingeniería-de-datos" class="level1">
-<h1>Página de Ingeniería de Datos</h1>
-<p>Contenido próximamente…</p>
+<section id="plantilla-de-control-de-calidad-de-datos-por-capas" class="level1">
+<h1>📊 Plantilla de Control de Calidad de Datos por Capas</h1>
+<section id="introducción-técnica" class="level2">
+<h2 class="anchored" data-anchor-id="introducción-técnica">🔍 Introducción técnica</h2>
+<p>El <strong>control de calidad de los datos (Data Quality Control)</strong> es un componente esencial dentro de cualquier arquitectura de datos moderna, especialmente en proyectos de inteligencia de negocios (BI), planificación pública, o monitoreo de políticas públicas. Su objetivo es garantizar que los datos utilizados para análisis, reportes e indicadores sean confiables, consistentes y trazables.</p>
+<p>Una estrategia efectiva de calidad de datos debe implementarse <strong>por capas</strong>, es decir, alineada a las etapas del procesamiento de datos: desde la ingesta hasta la visualización final. Este enfoque modular permite que cada equipo (ETL, DWH, analítica, visualización) tenga responsabilidades específicas.</p>
+<hr>
+</section>
+<section id="caso-piloto-de-referencia" class="level2">
+<h2 class="anchored" data-anchor-id="caso-piloto-de-referencia">🎯 Caso piloto de referencia</h2>
+<p><strong>Proyecto</strong>: Observatorio de Ventas Locales y Actividades Económicas<br>
+<strong>Entidad</strong>: Gobierno Municipal + PNUD<br>
+<strong>Objetivo</strong>: Crear un sistema de información para analizar las ventas y actividades económicas a nivel de parroquia, cantón y ciudad, con indicadores desagregados por sector económico.</p>
+<p><strong>Problema detectado</strong>:<br>
+Los datos iniciales presentaban duplicados, fechas inválidas, diferencias entre fuentes, y errores en los modelos OLAP. Esto motivó la implementación de una política de calidad por capas.</p>
+<hr>
+</section>
+<section id="capa-1-fuente-de-datos-ingesta" class="level2">
+<h2 class="anchored" data-anchor-id="capa-1-fuente-de-datos-ingesta">🧱 Capa 1: Fuente de Datos / Ingesta</h2>
+<section id="objetivo" class="level3">
+<h3 class="anchored" data-anchor-id="objetivo">🎯 Objetivo</h3>
+<p>Asegurar que los datos provenientes de sistemas transaccionales, archivos externos o APIs sean válidos antes de ser transformados o almacenados.</p>
+</section>
+<section id="procedimiento" class="level3">
+<h3 class="anchored" data-anchor-id="procedimiento">⚙️ Procedimiento</h3>
+<ul>
+<li>Validar tipos de datos, formatos y longitudes<br>
+</li>
+<li>Identificar valores nulos o inválidos<br>
+</li>
+<li>Aplicar reglas mínimas de negocio (ej. fechas no futuras, RUCs válidos)<br>
+</li>
+<li>Registrar errores en bitácoras</li>
+</ul>
+</section>
+<section id="tabla-resumen" class="level3">
+<h3 class="anchored" data-anchor-id="tabla-resumen">📋 Tabla resumen</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 39%">
+<col style="width: 16%">
+<col style="width: 10%">
+<col style="width: 14%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Campo</th>
+<th>Regla de Validación</th>
+<th>Tipo de Regla</th>
+<th>Frecuencia</th>
+<th>Responsable</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>RUC</td>
+<td>Longitud = 13, solo números</td>
+<td>Formato</td>
+<td>Diaria</td>
+<td>Equipo ETL</td>
+<td>✅</td>
+</tr>
+<tr class="even">
+<td>Fecha ingreso</td>
+<td>Fecha válida y menor o igual a hoy</td>
+<td>Lógica temporal</td>
+<td>Diaria</td>
+<td>Equipo ETL</td>
+<td>✅</td>
+</tr>
+<tr class="odd">
+<td>Cédula</td>
+<td>No duplicada en la tabla de personas</td>
+<td>Unicidad</td>
+<td>Diaria</td>
+<td>QA de datos</td>
+<td>🔄</td>
+</tr>
+<tr class="even">
+<td>Monto ventas</td>
+<td>Mayor o igual a 0</td>
+<td>Rango</td>
+<td>Semanal</td>
+<td>QA de datos</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="capa-2-integración-dwh" class="level2">
+<h2 class="anchored" data-anchor-id="capa-2-integración-dwh">🏗 Capa 2: Integración / DWH</h2>
+<section id="objetivo-1" class="level3">
+<h3 class="anchored" data-anchor-id="objetivo-1">🎯 Objetivo</h3>
+<p>Consolidar datos transformados, validados y enriquecidos en un almacén estructurado. Verificar que cumplan con reglas de integridad y coherencia de negocio.</p>
+</section>
+<section id="procedimiento-1" class="level3">
+<h3 class="anchored" data-anchor-id="procedimiento-1">⚙️ Procedimiento</h3>
+<ul>
+<li>Verificar claves foráneas y jerarquías<br>
+</li>
+<li>Validar consistencia entre tablas<br>
+</li>
+<li>Aplicar reglas contables, totales y reconciliaciones<br>
+</li>
+<li>Automatizar reglas de negocio complejas</li>
+</ul>
+</section>
+<section id="tabla-resumen-1" class="level3">
+<h3 class="anchored" data-anchor-id="tabla-resumen-1">📋 Tabla resumen</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 43%">
+<col style="width: 14%">
+<col style="width: 9%">
+<col style="width: 13%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Campo / Tabla</th>
+<th>Regla de Consistencia</th>
+<th>Tipo de Regla</th>
+<th>Frecuencia</th>
+<th>Responsable</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cliente_ID</td>
+<td>Existe en tabla de clientes</td>
+<td>Integridad FK</td>
+<td>Diaria</td>
+<td>DBA / BI</td>
+<td>✅</td>
+</tr>
+<tr class="even">
+<td>Código producto</td>
+<td>Igual definición en catálogo oficial</td>
+<td>Consistencia ref.</td>
+<td>Semanal</td>
+<td>Datos maestros</td>
+<td>✅</td>
+</tr>
+<tr class="odd">
+<td>Ventas</td>
+<td>Ventas por mes deben cuadrar con totales históricos</td>
+<td>Reconciliación</td>
+<td>Mensual</td>
+<td>Equipo BI</td>
+<td>🔄</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="capa-3-modelo-semántico-olap" class="level2">
+<h2 class="anchored" data-anchor-id="capa-3-modelo-semántico-olap">🧠 Capa 3: Modelo Semántico / OLAP</h2>
+<section id="objetivo-2" class="level3">
+<h3 class="anchored" data-anchor-id="objetivo-2">🎯 Objetivo</h3>
+<p>Verificar que los modelos analíticos (cubos OLAP, modelos tabulares) reflejen correctamente las definiciones institucionales, jerarquías geográficas y cálculos de KPIs.</p>
+</section>
+<section id="procedimiento-2" class="level3">
+<h3 class="anchored" data-anchor-id="procedimiento-2">⚙️ Procedimiento</h3>
+<ul>
+<li>Verificar consistencia de medidas agregadas<br>
+</li>
+<li>Validar fórmulas DAX/MDX con definiciones oficiales<br>
+</li>
+<li>Confirmar jerarquías (ej. parroquia → cantón → provincia)</li>
+</ul>
+</section>
+<section id="tabla-resumen-2" class="level3">
+<h3 class="anchored" data-anchor-id="tabla-resumen-2">📋 Tabla resumen</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 48%">
+<col style="width: 11%">
+<col style="width: 13%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Indicador</th>
+<th>Regla de Validación</th>
+<th>Frecuencia</th>
+<th>Responsable</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ventas totales</td>
+<td>Suma de ventas locales + exportaciones</td>
+<td>Mensual</td>
+<td>Analista BI</td>
+<td>✅</td>
+</tr>
+<tr class="even">
+<td>Variación % anual</td>
+<td>[(año t) - (año t-1)] / (año t-1)</td>
+<td>Mensual</td>
+<td>Analista BI</td>
+<td>✅</td>
+</tr>
+<tr class="odd">
+<td>Jerarquía geográfica</td>
+<td>Parroquia → Cantón → Provincia coherente</td>
+<td>Mensual</td>
+<td>Modelador BI</td>
+<td>🔄</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="capa-4-visualización-reportes" class="level2">
+<h2 class="anchored" data-anchor-id="capa-4-visualización-reportes">📊 Capa 4: Visualización / Reportes</h2>
+<section id="objetivo-3" class="level3">
+<h3 class="anchored" data-anchor-id="objetivo-3">🎯 Objetivo</h3>
+<p>Garantizar que la representación final de los datos sea clara, exacta, comprensible y que respete las definiciones, fuentes y unidades.</p>
+</section>
+<section id="procedimiento-3" class="level3">
+<h3 class="anchored" data-anchor-id="procedimiento-3">⚙️ Procedimiento</h3>
+<ul>
+<li>Revisar títulos, leyendas y unidades de medida<br>
+</li>
+<li>Comparar resultados con fuentes oficiales (ej. INEC)<br>
+</li>
+<li>Validar visualmente datos y tendencias</li>
+</ul>
+</section>
+<section id="tabla-resumen-3" class="level3">
+<h3 class="anchored" data-anchor-id="tabla-resumen-3">📋 Tabla resumen</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 44%">
+<col style="width: 18%">
+<col style="width: 10%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dashboard / Informe</th>
+<th>Verificación</th>
+<th>Responsable</th>
+<th>Frecuencia</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Tablero de ventas</td>
+<td>KPIs tienen unidad y etiquetas correctas</td>
+<td>Diseñador BI</td>
+<td>Mensual</td>
+<td>✅</td>
+</tr>
+<tr class="even">
+<td>Informe de pobreza</td>
+<td>Coincide con cifras del INEC</td>
+<td>QA externo</td>
+<td>Trimestral</td>
+<td>✅</td>
+</tr>
+<tr class="odd">
+<td>Título y fuente</td>
+<td>Cada gráfico tiene título y fuente visible</td>
+<td>QA visualización</td>
+<td>Mensual</td>
+<td>🔄</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="conclusión" class="level2">
+<h2 class="anchored" data-anchor-id="conclusión">✅ Conclusión</h2>
+<p>El control de calidad por capas es una estrategia efectiva para garantizar que los datos soporten decisiones confiables. Cada equipo técnico debe asumir responsabilidad por su capa, apoyado en validaciones automatizadas, políticas institucionales y monitoreo continuo. Una cultura de calidad de datos es clave para el éxito de proyectos de BI y gobierno abierto.</p>
+<hr>
+</section>
+<section id="referencias-formato-apa-7" class="level2">
+<h2 class="anchored" data-anchor-id="referencias-formato-apa-7">📚 Referencias (formato APA 7)</h2>
+<ul>
+<li>DAMA International. (2017). <em>DAMA-DMBOK: Data Management Body of Knowledge</em> (2nd ed.). Technics Publications.<br>
+</li>
+<li>Kimball, R., &amp; Ross, M. (2013). <em>The Data Warehouse Toolkit: The Definitive Guide to Dimensional Modeling</em> (3rd ed.). Wiley.<br>
+</li>
+<li>ISO. (2011). <em>ISO/IEC 25012:2011 - Software engineering — Software product Quality Requirements and Evaluation (SQuaRE) — Data quality model</em>.<br>
+</li>
+<li>Brown, S. (2019). <em>Software Architecture for Developers</em> (2nd ed.). Leanpub.<br>
+</li>
+<li>Eckerson, W. (2010). <em>Data Quality and the Bottom Line: Achieving Business Success through a Commitment to High Quality Data</em>. TDWI.</li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

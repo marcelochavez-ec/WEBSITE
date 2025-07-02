@@ -1,0 +1,41 @@
+# 📊 Plantilla de Control de Calidad de Datos por Capas
+
+## Capa: Fuente de Datos / Ingesta
+
+| Campo         | Regla de Validación                          | Tipo de Regla     | Frecuencia | Responsable     | Estado |
+  |---------------|----------------------------------------------|-------------------|------------|-----------------|--------|
+  | RUC           | Longitud = 13, solo números                  | Formato           | Diaria     | Equipo ETL      | ✅     |
+    | Fecha ingreso | Fecha válida y menor o igual a hoy           | Lógica temporal   | Diaria     | Equipo ETL      | ✅     |
+    | Cédula        | No duplicada en la tabla de personas         | Unicidad          | Diaria     | QA de datos     | 🔄     |
+    | Monto ventas  | Mayor o igual a 0                            | Rango             | Semanal    | QA de datos     | ✅     |
+    
+    ---
+    
+    ## Capa: Integración / DWH
+    
+    | Campo / Tabla      | Regla de Consistencia                                 | Tipo de Regla     | Frecuencia | Responsable     | Estado |
+    |--------------------|--------------------------------------------------------|-------------------|------------|-----------------|--------|
+    | Cliente_ID         | Existe en tabla de clientes                            | Integridad FK     | Diaria     | DBA / BI        | ✅     |
+    | Código producto    | Igual definición en catálogo oficial                   | Consistencia ref. | Semanal    | Datos maestros  | ✅     |
+    | Ventas             | Ventas por mes deben cuadrar con totales históricos    | Reconciliación    | Mensual    | Equipo BI       | 🔄     |
+    
+    ---
+    
+    ## Capa: Modelo Semántico / OLAP
+    
+    | Indicador          | Regla de Validación                           | Frecuencia | Responsable   | Estado |
+    |--------------------|-----------------------------------------------|------------|---------------|--------|
+    | Ventas totales     | Suma de ventas locales + exportaciones        | Mensual    | Analista BI   | ✅     |
+    | Variación % anual  | [(año t) - (año t-1)] / (año t-1)              | Mensual    | Analista BI   | ✅     |
+    | Jerarquía geográfica | Parroquia → Cantón → Provincia coherente     | Mensual    | Modelador BI  | 🔄     |
+    
+    ---
+    
+    ## Capa: Visualización / Reportes
+    
+    | Dashboard / Informe       | Verificación                              | Responsable    | Frecuencia | Estado |
+    |---------------------------|-------------------------------------------|----------------|------------|--------|
+    | Tablero de ventas         | KPIs tienen unidad y etiquetas correctas  | Diseñador BI   | Mensual    | ✅     |
+    | Informe de pobreza        | Coincide con cifras del INEC               | QA externo     | Trimestral | ✅     |
+    | Título y fuente           | Cada gráfico tiene título y fuente visible| QA visualización| Mensual    | 🔄     |
+    
